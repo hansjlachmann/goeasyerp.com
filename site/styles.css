@@ -8,52 +8,80 @@
   --slate:#1F2933;
   --amber:#F2A900;
   --offwhite:#F5F7F8;
-  --grey:#8A96A3;        /* borders, and text on slate */
-  --grey-text:#566370;   /* secondary text on off-white (7:1) */
+  --body:#52606D;     /* body text on off-white, 6.4:1 */
+  --grey:#8A96A3;     /* dividers, and small text on slate only */
   --white:#fff;
 }
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:1.0625rem;line-height:1.6;color:var(--slate);background:var(--offwhite);display:flex;flex-direction:column;min-height:100vh}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:5rem}
+body{margin:0;font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:1.0625rem;line-height:1.6;color:var(--body);background:var(--offwhite);display:flex;flex-direction:column;min-height:100vh}
 main{flex:1}
-.wrap{max-width:60rem;margin:0 auto;padding:0 1.25rem}
-h1,h2,h3{line-height:1.2;margin:0}
+.wrap{max-width:60rem;margin:0 auto;padding:0 1rem}
+h1,h2,h3{line-height:1.2;margin:0;color:var(--slate)}
+h1{font-weight:700}
+h2,h3{font-weight:600}
+p{margin:0}
 a{color:inherit}
+strong{font-weight:600;color:var(--slate)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 :focus-visible{outline:3px solid var(--amber);outline-offset:3px}
-.site-header :focus-visible,.site-footer :focus-visible,.btn:focus-visible{outline-color:var(--white)}
+.site-header :focus-visible,.site-footer :focus-visible{outline-color:var(--white)}
 .btn-primary:focus-visible{outline-color:var(--slate)}
 
-.skip{position:absolute;left:-999px;top:0;background:var(--amber);color:var(--slate);padding:.5rem 1rem;font-weight:600;z-index:10}
+.skip{position:absolute;left:-999px;top:0;background:var(--amber);color:var(--slate);padding:.5rem 1rem;font-weight:600;z-index:20}
 .skip:focus{left:0}
 
-.site-header{background:var(--slate);padding:1rem 0}
+.site-header{background:var(--slate);position:sticky;top:0;z-index:10;padding:.875rem 0}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:1rem}
 .brand{display:inline-block;line-height:0}
 .brand img{height:2rem;width:auto}
+.header-link{color:var(--white);font-weight:600;text-decoration:none;padding:.25rem .5rem}
+.header-link:hover{text-decoration:underline}
+
+main>section{padding:3.5rem 0;border-top:1px solid rgba(138,150,163,.35)}
+main>section:first-child{border-top:0}
+main>section h2{font-size:1.625rem;margin-bottom:1.5rem}
 
 .hero{padding:4rem 0 3.5rem}
-.hero h1{font-size:clamp(2rem,6vw,3.25rem);font-weight:700;letter-spacing:-.02em;max-width:18ch}
-.lead{font-size:clamp(1.125rem,2.5vw,1.375rem);color:var(--grey-text);max-width:38rem;margin:1.25rem 0 0}
-.actions{display:flex;flex-wrap:wrap;gap:.75rem;margin:2rem 0 0}
+.hero-grid{display:grid;gap:2.5rem;align-items:center}
+.hero h1{font-size:clamp(2rem,6vw,3.25rem);letter-spacing:-.02em;max-width:18ch}
+.lead{font-size:clamp(1.125rem,2.5vw,1.375rem);max-width:38rem;margin-top:1.25rem}
+.actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem}
+.hero-shot{margin:0}
+.hero-shot img{display:block;width:100%;height:auto;border:1px solid rgba(138,150,163,.5);border-radius:.5rem;box-shadow:0 12px 32px rgba(31,41,51,.18)}
+@media (min-width:48rem){.hero-grid:has(.hero-shot){grid-template-columns:1fr 1fr}}
+
 .btn{display:inline-block;padding:.8rem 1.5rem;border-radius:.5rem;font-weight:600;text-decoration:none;border:2px solid transparent}
 .btn-primary{background:var(--amber);color:var(--slate)}
 .btn-primary:hover{background:#FFB920}
 .btn-secondary{background:var(--slate);color:var(--offwhite)}
 .btn-secondary:hover{background:#323F4B}
 
-.features{padding:3rem 0;border-top:1px solid var(--grey)}
-.features h2,.sample-section h2{font-size:1.5rem;margin-bottom:1.5rem}
-.grid{list-style:none;margin:0;padding:0;display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr))}
-.grid li{background:var(--white);border:1px solid var(--grey);border-top:4px solid var(--amber);border-radius:.5rem;padding:1.25rem}
-.grid h3{font-size:1.125rem;margin-bottom:.4rem}
-.grid p{margin:0;color:var(--grey-text)}
+.dash-list{list-style:none;margin:0;padding:0;display:grid;gap:1.5rem}
+.dash-list li{position:relative;padding-left:2rem}
+.dash-list li::before{content:"";position:absolute;left:0;top:.8em;width:1rem;height:2px;background:var(--amber)}
+@media (min-width:48rem){.two-col{grid-template-columns:1fr 1fr;column-gap:3rem}}
 
-.sample-section{padding:3rem 0 4rem;border-top:1px solid var(--grey)}
-.sample{margin:0;background:var(--slate);color:var(--offwhite);border-radius:.5rem;padding:1.25rem 1.5rem;overflow-x:auto;max-width:28rem}
-.sample code{font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;font-size:1rem;line-height:1.8}
+.reasons{display:grid;gap:2rem}
+.reasons p{margin-top:.5rem;max-width:70ch}
+.reasons h3{font-size:1.1875rem}
 
-.site-footer{background:var(--slate);color:var(--offwhite);padding:1.75rem 0;font-size:.9375rem}
-.site-footer p{margin:0}
-.site-footer p+p{color:var(--grey);margin-top:.25rem}
+.body{max-width:70ch}
+.split{display:grid;gap:2rem;align-items:center}
+@media (min-width:48rem){.split{grid-template-columns:1fr 1fr;gap:3rem}}
+
+.journal{background:var(--slate);color:var(--white);border-radius:.5rem;padding:1.25rem 1.5rem;overflow-x:auto}
+.journal table{width:100%;border-collapse:collapse;font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.9375rem;line-height:1.9}
+.journal th{font-weight:500;text-align:left;color:var(--grey);border-bottom:1px solid rgba(138,150,163,.5)}
+.journal td,.journal th{padding:.1rem .5rem .1rem 0;white-space:nowrap}
+.journal .num{text-align:right;padding-right:0;padding-left:1rem}
+.journal tfoot td{border-top:1px solid rgba(138,150,163,.5);padding-top:.5rem}
+.journal .posted{color:var(--amber)}
+
+.site-footer{background:var(--slate);color:var(--white);padding:1.75rem 0;font-size:.9375rem}
+.site-footer .muted{color:var(--grey);margin-top:.25rem}
+.site-footer .links{margin-top:.75rem}
+.site-footer .links a{margin-right:1rem}
 
 @media (prefers-reduced-motion:no-preference){.btn{transition:background-color .15s}}

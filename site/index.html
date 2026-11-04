@@ -6,81 +6,142 @@
   <title>GoEasyERP – Open-source ERP for small businesses</title>
   <meta name="description" content="GoEasyERP is an open-source ERP for small businesses: finance, sales, purchasing, inventory, projects and fixed assets in one system.">
   <meta name="theme-color" content="#1F2933">
-  <link rel="icon" href="/assets/goeasyerp-icon.svg" type="image/svg+xml">
   <link rel="icon" href="/assets/goeasyerp-icon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="/assets/goeasyerp-icon-180.png">
   <link rel="preload" href="/assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="GoEasyERP">
   <meta property="og:title" content="GoEasyERP – Open-source ERP for small businesses">
-  <meta property="og:description" content="Finance, sales, purchasing, inventory, projects and fixed assets in one system.">
+  <meta property="og:description" content="GoEasyERP is an open-source ERP for small businesses: finance, sales, purchasing, inventory, projects and fixed assets in one system.">
   <meta property="og:url" content="https://goeasyerp.com/">
-  <meta property="og:image" content="https://goeasyerp.com/assets/goeasyerp-icon-180.png">
-  <meta property="og:image:alt" content="GoEasyERP icon">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://goeasyerp.com/assets/goeasyerp-share.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="627">
+  <meta property="og:image:alt" content="GoEasyERP – Open-source ERP for small businesses">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
   <header class="site-header">
-    <div class="wrap">
-      <a href="/" class="brand">
+    <div class="wrap bar">
+      <a href="https://goeasyerp.com/" class="brand">
         <img src="/assets/goeasyerp-wordmark-offwhite.svg" alt="GoEasyERP" width="575" height="119">
       </a>
+      <a class="header-link" href="https://github.com/hansjlachmann/goeasyerp" rel="noopener">GitHub</a>
     </div>
   </header>
 
   <main id="main">
     <section class="hero">
-      <div class="wrap">
-        <h1>Open-source ERP for small businesses</h1>
-        <p class="lead">Finance, sales, purchasing, inventory, projects and fixed assets in one system.</p>
-        <p class="actions">
-          <a class="btn btn-primary" href="#demo">Try the demo</a>
-          <a class="btn btn-secondary" href="https://github.com/hansjlachmann/goeasyerp" rel="noopener">View on GitHub</a>
-        </p>
+      <div class="wrap hero-grid">
+        <div class="hero-text">
+          <h1>Open-source ERP for small businesses</h1>
+          <p class="lead">Finance, sales, purchasing, inventory, projects and fixed assets in one system.</p>
+          <p class="actions">
+            <a class="btn btn-primary" href="https://github.com/hansjlachmann/goeasyerp" rel="noopener">View on GitHub</a>
+            <!-- When a live demo is published, change this to "Try the demo" with the demo URL. -->
+            <a class="btn btn-secondary" href="#consulting">Consulting and support</a>
+          </p>
+        </div>
+        <!-- Hero screenshot goes here once it exists (alt text must describe what it shows):
+        <figure class="hero-shot"><img src="/assets/hero-screenshot.png" alt="..." width="1200" height="800"></figure>
+        -->
       </div>
     </section>
 
-    <section class="features" aria-labelledby="features-title">
+    <section aria-labelledby="small-teams">
       <div class="wrap">
-        <h2 id="features-title">Built for how small teams work</h2>
-        <ul class="grid">
-          <li>
-            <h3>Keyboard-driven</h3>
-            <p>Enter, post and navigate without leaving the keyboard.</p>
-          </li>
-          <li>
-            <h3>Multi-company</h3>
-            <p>Run several companies side by side in one installation.</p>
-          </li>
-          <li>
-            <h3>Printed reports</h3>
-            <p>Clean, print-ready reports for the books, customers and auditors.</p>
-          </li>
-          <li>
-            <h3>Posting with balance checks</h3>
-            <p>Entries only post when debits and credits balance.</p>
-          </li>
-          <li>
-            <h3>Open source (MIT)</h3>
-            <p>Read the code, change it, self-host it. No lock-in.</p>
-          </li>
-          <li>
-            <h3>PostgreSQL or SQLite</h3>
-            <p>Start small on SQLite, scale up on PostgreSQL.</p>
-          </li>
+        <h2 id="small-teams">Built for how small teams work</h2>
+        <ul class="dash-list two-col">
+          <li><strong>Keyboard-driven.</strong> Every task can be done from the keyboard, with no mouse needed.</li>
+          <li><strong>Multi-company.</strong> Run several companies side by side in one installation.</li>
+          <li><strong>Printed reports.</strong> Clean, print-ready reports for the books, customers and auditors.</li>
+          <li><strong>Posting with balance checks.</strong> Entries only post when debits and credits balance.</li>
+          <li><strong>Open source (MIT).</strong> Read the code, change it, self-host it.</li>
+          <li><strong>PostgreSQL or SQLite.</strong> Start small on SQLite, scale up on PostgreSQL.</li>
         </ul>
       </div>
     </section>
 
-    <section class="sample-section" id="demo" aria-labelledby="sample-title">
+    <section aria-labelledby="why">
       <div class="wrap">
-        <h2 id="sample-title">Every posting is checked</h2>
-        <pre class="sample" aria-label="Sample posting: balance 12,480.00, account 1010 Bank, status Posted"><code>Balance  12,480.00
-Account  1010 Bank
-Status   Posted</code></pre>
+        <h2 id="why">Why GoEasyERP</h2>
+        <div class="reasons">
+          <div>
+            <h3>Your data stays yours</h3>
+            <p>Your data is stored in your own PostgreSQL or SQLite database, on a server you choose: your own hardware, or any cloud provider that offers container hosting, such as Azure, AWS or Google Cloud. The code is open under the MIT licence, so no vendor can lock the data away, raise the price for access to it, or end support for the system you depend on. A hosted service from ERP Development AS is planned for businesses that prefer not to run their own server.</p>
+          </div>
+          <div>
+            <h3>Built for the customer's benefit, not the vendor's</h3>
+            <p>GoEasyERP has no licence fees, per-user charges or paid add-ons. The software is free, and ERP Development AS earns its living from consulting hours: setting the system up, adapting it to your business and supporting you when you need help. You pay for the work you ask for, not for the right to use your own system.</p>
+          </div>
+          <div>
+            <h3>The functions you need, without paying for the rest</h3>
+            <p>Most small businesses use a small part of what large ERP systems offer, yet they pay for all of it. GoEasyERP covers the accounting, sales, purchasing, inventory, projects and fixed assets a small business uses every day, and nothing it has to pay for and never opens.</p>
+          </div>
+          <div>
+            <h3>No hype, just bookkeeping that works</h3>
+            <p>GoEasyERP is not built around trends or marketing promises. It is built on a way of working that accountants have relied on for decades: master data, journals, posting and ledgers that always balance.</p>
+          </div>
+          <div>
+            <h3>Fast on any hardware</h3>
+            <p>Speed is the first thing we design for. GoEasyERP is a single compiled program that runs on Linux on almost any computer, from an old office PC to a small ARM board, and every screen and posting responds immediately. It ships as ready-made container images that run with Docker on a single server or on Kubernetes when you need to scale.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="modules">
+      <div class="wrap">
+        <h2 id="modules">What GoEasyERP covers</h2>
+        <ul class="dash-list two-col">
+          <li><strong>General Ledger.</strong> Chart of accounts, general and recurring journals, budgets, financial statements, bank reconciliation, VAT settlement, multiple currencies, dimensions and year-end close.</li>
+          <li><strong>Sales.</strong> Customers, quotes, blanket orders, orders, invoices and credit memos with posting preview, reminders, finance charges and aged receivables.</li>
+          <li><strong>Purchases.</strong> Vendors, quotes, blanket orders, orders, invoices and credit memos, payment journals, requisition worksheets and aged payables.</li>
+          <li><strong>Items &amp; Inventory.</strong> Items, locations and bins, item and transfer journals, physical inventory, bills of materials, price groups, discounts and inventory valuation.</li>
+          <li><strong>Resources.</strong> Resources and resource groups, capacity, work types, costs and prices, resource journals.</li>
+          <li><strong>Projects.</strong> Projects with phases, tasks and steps, budgets, project journals, and actual-to-budget and billing reports.</li>
+          <li><strong>Assets &amp; Depreciation.</strong> Fixed assets, depreciation books and tables, fixed asset journals, insurance and maintenance.</li>
+          <li><strong>Administration.</strong> Multiple companies, users, roles and permissions, job queue, email setup, languages, themes and extension apps.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section aria-labelledby="checked">
+      <div class="wrap split">
+        <div>
+          <h2 id="checked">Every posting is checked</h2>
+          <p class="body">A journal posts only when its debits and credits balance. If they do not, nothing is posted and the lines that cause the difference are shown.</p>
+        </div>
+        <div class="journal">
+          <table>
+            <caption class="sr-only">Example journal: sales invoice with VAT</caption>
+            <thead>
+              <tr><th scope="col">Account</th><th scope="col" class="num">Debit</th><th scope="col" class="num">Credit</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1010 Bank</td><td class="num">1,250.00</td><td class="num"></td></tr>
+              <tr><td>3000 Sales</td><td class="num"></td><td class="num">1,000.00</td></tr>
+              <tr><td>2700 Output VAT</td><td class="num"></td><td class="num">250.00</td></tr>
+            </tbody>
+            <tfoot>
+              <tr><td>Balance</td><td class="num">0.00</td><td class="num posted">✓ Posted</td></tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="consulting" aria-labelledby="consulting-title">
+      <div class="wrap">
+        <h2 id="consulting-title">Consulting and support</h2>
+        <p class="body">ERP Development AS sets up GoEasyERP, adapts it to your business and supports you in daily use, paid by the hour.</p>
+        <p class="actions">
+          <!-- TODO: contact email address is still to be decided; add it after "mailto:". -->
+          <a class="btn btn-secondary" href="mailto:">Contact us</a>
+        </p>
       </div>
     </section>
   </main>
@@ -88,7 +149,9 @@ Status   Posted</code></pre>
   <footer class="site-footer">
     <div class="wrap">
       <p>GoEasyERP · open source under the MIT licence · goeasyerp.com</p>
-      <p>ERP Development AS</p>
+      <p class="muted">ERP Development AS</p>
+      <!-- TODO: add the LinkedIn company page link once the URL is known. -->
+      <p class="links"><a href="https://github.com/hansjlachmann/goeasyerp" rel="noopener">GitHub</a></p>
     </div>
   </footer>
 </body>
