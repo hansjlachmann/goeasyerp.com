@@ -113,7 +113,7 @@
       <div class="wrap split">
         <div>
           <h2 id="checked">Every posting is checked</h2>
-          <p class="body">A journal posts only when its debits and credits balance. If they do not, nothing is posted and the lines that cause the difference are shown.</p>
+          <p class="body">A journal posts only when its debits and credits balance. If they do not, nothing is posted and the lines that cause the difference are shown. The check is built into the posting logic itself: if a transaction would leave the ledger entries out of balance, it is refused and rolled back, so a partial posting can never be saved.</p>
         </div>
         <div class="journal">
           <table>
