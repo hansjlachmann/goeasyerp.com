@@ -48,8 +48,10 @@ main>section h2{font-size:1.625rem;margin-bottom:1.5rem}
 .hero h1{font-size:clamp(2rem,6vw,3.25rem);letter-spacing:-.02em;max-width:18ch}
 .lead{font-size:clamp(1.125rem,2.5vw,1.375rem);max-width:38rem;margin-top:1.25rem}
 .actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem}
-.hero-shot{margin:0}
-.hero-shot img{display:block;width:100%;height:auto;border:1px solid rgba(138,150,163,.5);border-radius:.5rem;box-shadow:0 12px 32px rgba(31,41,51,.18)}
+.hero-shot{margin:0;border:1px solid rgba(138,150,163,.5);border-radius:.5rem;box-shadow:0 12px 32px rgba(31,41,51,.18);overflow:hidden;background:var(--white)}
+.hero-shot::before{content:"";display:block;height:1.75rem;background:radial-gradient(circle,#c9d0d6 .3rem,transparent .32rem) .75rem 50%/1.1rem 100% no-repeat,radial-gradient(circle,#c9d0d6 .3rem,transparent .32rem) 1.85rem 50%/1.1rem 100% no-repeat,radial-gradient(circle,#c9d0d6 .3rem,transparent .32rem) 2.95rem 50%/1.1rem 100% no-repeat,#e9edf0;border-bottom:1px solid rgba(138,150,163,.5)}
+.hero-shot a{display:block;line-height:0}
+.hero-shot img{display:block;width:100%;height:auto}
 @media (min-width:48rem){.hero-grid:has(.hero-shot){grid-template-columns:1fr 1fr}}
 
 .btn{display:inline-block;padding:.8rem 1.5rem;border-radius:.5rem;font-weight:600;text-decoration:none;border:2px solid transparent}
