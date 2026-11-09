@@ -46,8 +46,8 @@
           </p>
         </div>
         <figure class="hero-shot">
-          <a href="/assets/hero-screenshot.png">
-            <img src="/assets/hero-screenshot.png" width="1530" height="752" alt="The GoEasyERP customer list: a table of customers with number, name, city, phone, balance and sales columns, and a toolbar with New, Edit and Delete and their keyboard shortcuts.">
+          <a href="/assets/screenshots/customer-list.png" data-slide="2">
+            <img src="/assets/screenshots/customer-list.png" width="1530" height="752" alt="The GoEasyERP customer list: a table of customers with number, name, city, phone, balance and sales columns, and a toolbar with New, Edit and Delete and their keyboard shortcuts.">
           </a>
         </figure>
       </div>
@@ -136,6 +136,27 @@
       </div>
     </section>
 
+    <section id="screenshots" aria-labelledby="screenshots-title">
+      <div class="wrap split">
+        <div>
+          <h2 id="screenshots-title">See it in use</h2>
+          <p class="body">Browse screenshots of the menu, the customer list and card, and a sales order. Select the picture to open the slideshow.</p>
+          <ul class="shot-links">
+            <li><a href="/assets/screenshots/main-menu.png" data-slide="0">Main menu</a></li>
+            <li><a href="/assets/screenshots/search-menu.png" data-slide="1">Menu search</a></li>
+            <li><a href="/assets/screenshots/customer-list.png" data-slide="2">Customer list</a></li>
+            <li><a href="/assets/screenshots/customer-card.png" data-slide="3">Customer card</a></li>
+            <li><a href="/assets/screenshots/salesorder.png" data-slide="4">Sales order</a></li>
+          </ul>
+        </div>
+        <figure class="hero-shot">
+          <a href="/assets/screenshots/main-menu.png" data-slide="0" aria-label="Open the screenshot slideshow (5 screenshots)">
+            <img src="/assets/screenshots/main-menu.png" width="1557" height="770" loading="lazy" alt="The GoEasyERP main menu with the Sales area open, listing customers, journals, orders, invoices, reports and ledger entries.">
+          </a>
+        </figure>
+      </div>
+    </section>
+
     <section id="consulting" aria-labelledby="consulting-title">
       <div class="wrap">
         <h2 id="consulting-title">Consulting and support</h2>
@@ -154,5 +175,21 @@
       <p class="links"><a href="https://github.com/hansjlachmann/goeasyerp" rel="noopener">GitHub</a><a href="https://www.linkedin.com/company/goeasyerp" rel="noopener">LinkedIn</a></p>
     </div>
   </footer>
+  <dialog id="viewer" class="viewer" aria-label="Screenshots">
+    <div class="viewer-bar">
+      <p class="viewer-count" aria-live="polite"></p>
+      <button type="button" class="viewer-close" aria-label="Close slideshow">&times;</button>
+    </div>
+    <div class="viewer-stage">
+      <button type="button" class="viewer-nav viewer-prev" aria-label="Previous screenshot">&#8249;</button>
+      <figure>
+        <img class="viewer-img" alt="">
+        <figcaption class="viewer-caption"></figcaption>
+      </figure>
+      <button type="button" class="viewer-nav viewer-next" aria-label="Next screenshot">&#8250;</button>
+    </div>
+  </dialog>
+
+  <script src="/slideshow.js" defer></script>
 </body>
 </html>
