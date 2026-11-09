@@ -6,17 +6,53 @@ on:
     tags: ["v*"]
 
 permissions:
-  contents: read
+  contents: write   # create the release tag and GitHub release
   packages: write
 
 env:
   IMAGE: ghcr.io/hansjlachmann/goeasyerp.com
+
+# One run at a time on main, so two quick pushes cannot pick the same version.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   image:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # On main: next version = latest v* tag + 1 patch. Put [minor] or [major]
+      # in the commit message to bump those instead. If HEAD is already tagged
+      # (e.g. a re-run), reuse that tag and do not create a new one.
+      - name: Work out release version
+        id: ver
+        if: github.ref == 'refs/heads/main'
+        run: |
+          set -euo pipefail
+          existing=$(git tag --points-at HEAD --list 'v*' | sort -V | tail -1)
+          if [ -n "$existing" ]; then
+            echo "tag=$existing" >> "$GITHUB_OUTPUT"
+            echo "number=${existing#v}" >> "$GITHUB_OUTPUT"
+            echo "create=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          last=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname | head -1)
+          last=${last:-v0.0.0}
+          IFS=. read -r major minor patch <<< "${last#v}"
+          msg=$(git log -1 --format=%B)
+          case "$msg" in
+            *"[major]"*) major=$((major+1)); minor=0; patch=0 ;;
+            *"[minor]"*) minor=$((minor+1)); patch=0 ;;
+            *)           patch=$((patch+1)) ;;
+          esac
+          echo "tag=v$major.$minor.$patch" >> "$GITHUB_OUTPUT"
+          echo "number=$major.$minor.$patch" >> "$GITHUB_OUTPUT"
+          echo "create=true" >> "$GITHUB_OUTPUT"
+
       - uses: docker/setup-qemu-action@v3
       - uses: docker/setup-buildx-action@v3
       - uses: docker/login-action@v3
@@ -24,13 +60,16 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
       - id: meta
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.IMAGE }}
           tags: |
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+            type=raw,value=${{ steps.ver.outputs.number }},enable=${{ github.ref == 'refs/heads/main' }}
             type=semver,pattern={{version}}
+
       - uses: docker/build-push-action@v6
         with:
           context: .
@@ -40,3 +79,17 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      # Only after the image is pushed, so a failed build never leaves a tag.
+      - name: Tag and release
+        if: github.ref == 'refs/heads/main' && steps.ver.outputs.create == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.ver.outputs.tag }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "$TAG" -m "Release $TAG"
+          git push origin "$TAG"
+          gh release create "$TAG" --title "$TAG" --generate-notes --verify-tag
