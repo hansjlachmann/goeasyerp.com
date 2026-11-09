@@ -111,3 +111,36 @@ main>section h2{font-size:1.625rem;margin-bottom:1.5rem}
   .viewer-prev{left:.75rem}.viewer-next{right:.75rem}
   .viewer-img{max-height:calc(100vh - 11rem)}
 }
+
+/* Header navigation */
+.header-nav{display:flex;align-items:center;gap:.5rem}
+.header-link[aria-current="page"]{text-decoration:underline;text-decoration-color:var(--amber);text-decoration-thickness:2px;text-underline-offset:.35rem}
+
+/* Documentation pages */
+.docs{display:grid;gap:2rem;padding-top:2.5rem;padding-bottom:4rem}
+@media (min-width:52rem){.docs{grid-template-columns:12rem minmax(0,1fr);gap:3rem}}
+.docs-nav-title{margin:0 0 .5rem;font-weight:600;color:var(--slate)}
+.docs-nav ul{list-style:none;margin:0;padding:0}
+.docs-nav a{display:block;padding:.25rem 0 .25rem .75rem;border-left:2px solid rgba(138,150,163,.35);text-decoration:none}
+.docs-nav a:hover{color:var(--slate)}
+.docs-nav a[aria-current="page"]{border-left-color:var(--amber);color:var(--slate);font-weight:600}
+@media (min-width:52rem){.docs-nav{position:sticky;top:5rem;align-self:start}}
+
+.prose{min-width:0;max-width:46rem}
+.prose h1{font-size:clamp(1.75rem,5vw,2.5rem);letter-spacing:-.02em;margin-bottom:1rem}
+.prose h2{font-size:1.5rem;margin:3rem 0 1rem;padding-top:2rem;border-top:1px solid rgba(138,150,163,.35)}
+.prose h3{font-size:1.1875rem;margin:2rem 0 .75rem}
+.prose p,.prose ul,.prose ol,.prose table{margin:0 0 1rem}
+.prose ul,.prose ol{padding-left:1.5rem}
+.prose li{margin-bottom:.5rem}
+.prose a{color:var(--slate);text-underline-offset:.2em}
+.prose code,.prose kbd{font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.9em;color:var(--slate);overflow-wrap:anywhere}
+.prose kbd{border:1px solid var(--grey);border-radius:.25rem;padding:0 .3em}
+.prose pre{margin:.75rem 0 1.25rem;background:var(--slate);color:var(--offwhite);border-radius:.5rem;padding:1rem 1.25rem;overflow-x:auto}
+.prose pre code{color:inherit;font-size:.875rem;line-height:1.7;overflow-wrap:normal;white-space:pre}
+.prose .note{border-left:3px solid var(--amber);padding-left:1rem}
+.prose table{width:100%;border-collapse:collapse;font-size:.9375rem}
+.prose th,.prose td{text-align:left;vertical-align:top;padding:.6rem .75rem .6rem 0;border-bottom:1px solid rgba(138,150,163,.35)}
+.prose thead th{color:var(--slate);border-bottom-color:var(--grey)}
+.prose tbody th{font-weight:600;white-space:nowrap}
+.doc-index{list-style:none;padding:0!important}

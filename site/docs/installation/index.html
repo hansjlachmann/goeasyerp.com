@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Installation – GoEasyERP documentation</title>
+  <meta name="description" content="How to install GoEasyERP: try it on your own computer with Docker Desktop, or run it on a Linux server with HTTPS and backups.">
+  <meta name="theme-color" content="#1F2933">
+  <link rel="icon" href="/assets/goeasyerp-icon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/goeasyerp-icon-180.png">
+  <link rel="preload" href="/assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GoEasyERP">
+  <meta property="og:title" content="Installation – GoEasyERP documentation">
+  <meta property="og:description" content="How to install GoEasyERP: try it on your own computer with Docker Desktop, or run it on a Linux server with HTTPS and backups.">
+  <meta property="og:url" content="https://goeasyerp.com/docs/installation/">
+  <meta property="og:image" content="https://goeasyerp.com/assets/goeasyerp-share.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="627">
+  <meta property="og:image:alt" content="GoEasyERP – Open-source ERP for small businesses">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap bar">
+      <a href="/" class="brand">
+        <img src="/assets/goeasyerp-wordmark-offwhite.svg" alt="GoEasyERP" width="575" height="119">
+      </a>
+      <nav class="header-nav" aria-label="Main">
+        <a class="header-link" href="/docs/" aria-current="page">Docs</a>
+        <a class="header-link" href="https://github.com/hansjlachmann/goeasyerp" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="wrap docs">
+      <nav class="docs-nav" aria-label="Documentation"><p class="docs-nav-title">Documentation</p><ul><li><a href="/docs/installation/" aria-current="page">Installation</a></li></ul></nav>
+      <article class="prose">
+        <h1>Installation</h1>
+        <p>GoEasyERP runs in Docker, with its data in a PostgreSQL database. There are two ways to install it:</p>
+        <ul>
+          <li><a href="#try">Try it on your own computer</a>: on Windows, macOS or Linux, with only Docker Desktop installed.</li>
+          <li><a href="#server">Run it on a server</a>: HTTPS, backups and settings for real use.</li>
+        </ul>
+        <p>You need about 4&nbsp;GB of free memory and 10&nbsp;GB of disk.</p>
+
+        <h2 id="try">Try it on your own computer</h2>
+        <p>Install <a href="https://www.docker.com/products/docker-desktop/" rel="noopener">Docker Desktop</a>. Nothing else is needed.</p>
+        <ol>
+          <li>Download <a href="https://raw.githubusercontent.com/hansjlachmann/goeasyerp/main/docker-compose.local.yml" rel="noopener"><code>docker-compose.local.yml</code></a> and save it as <code>docker-compose.yml</code> in a folder of its own, for example <code>C:\GoEasyERP</code>.</li>
+          <li>Open the file in a text editor and replace the value of <code>JWT_SECRET</code> with any long random text.</li>
+          <li>In that folder, run:
+<pre><code>docker compose up -d</code></pre></li>
+          <li>After 2&ndash;3 minutes open <code>http://localhost:8000</code> and create the first user.</li>
+        </ol>
+        <p>Stop it with <code>docker compose stop</code> and start it again with <code>docker compose start</code>.</p>
+        <p class="note"><strong>Never run <code>docker compose down -v</code>.</strong> It deletes the database.</p>
+        <p>The trial installation is reachable from this computer only. To open it from other computers, change the line <code>"127.0.0.1:8000:80"</code> to <code>"8000:80"</code>, set <code>ORIGIN</code> to <code>http://&lt;computer name&gt;:8000</code> and open port 8000 in the firewall. For anything several people use, follow the server installation below instead.</p>
+
+        <h3 id="windows">Windows 10 and 11</h3>
+        <p>You need Windows 10 22H2 or Windows 11 (64-bit) with virtualization enabled in the BIOS/UEFI (Task Manager &rarr; Performance &rarr; CPU shows &ldquo;Virtualization: Enabled&rdquo;).</p>
+        <ol>
+          <li>Install Docker Desktop with &ldquo;Use WSL 2&rdquo; checked, restart when asked, and start Docker Desktop until it shows &ldquo;Engine running&rdquo;.</li>
+          <li>In PowerShell:
+<pre><code>mkdir C:\GoEasyERP; cd C:\GoEasyERP
+Invoke-WebRequest https://raw.githubusercontent.com/hansjlachmann/goeasyerp/main/docker-compose.local.yml -OutFile docker-compose.yml
+notepad docker-compose.yml      # replace JWT_SECRET, save
+docker compose up -d</code></pre></li>
+          <li>After 2&ndash;3 minutes open <code>http://localhost:8000</code>.</li>
+        </ol>
+        <p>Check that <code>docker info --format "{{.OSType}}"</code> prints <code>linux</code>. If it prints <code>windows</code>, right-click the Docker icon in the taskbar and choose &ldquo;Switch to Linux containers&rdquo;. GoEasyERP starts whenever Docker Desktop runs; to start it at sign-in, tick Settings &rarr; General &rarr; &ldquo;Start Docker Desktop when you sign in&rdquo;.</p>
+        <p>Docker Desktop is free for personal use, education and small businesses (fewer than 250 employees and less than USD&nbsp;10 million annual revenue). Larger companies need a paid Docker subscription, or can use Docker Engine in WSL2, which is free.</p>
+
+        <h3 id="windows-server">Windows Server</h3>
+        <p>Docker Desktop is not supported on Windows Server, and the Docker Engine there runs Windows containers only, which cannot run GoEasyERP. Use Docker Engine in WSL2 (Windows Server 2022 and 2025), or a Linux virtual machine in Hyper-V, which is the better choice for a server several people use. In Ubuntu or the Linux VM:</p>
+<pre><code>curl -fsSL https://get.docker.com | sudo sh
+sudo usermod -aG docker $USER   # log out and in again
+mkdir ~/goeasyerp &amp;&amp; cd ~/goeasyerp
+curl -o docker-compose.yml https://raw.githubusercontent.com/hansjlachmann/goeasyerp/main/docker-compose.local.yml
+nano docker-compose.yml         # replace JWT_SECRET
+docker compose up -d</code></pre>
+
+        <h3 id="demo-data">Demo data</h3>
+        <p>To look around with sample data, GoEasyERP can fill a company with demo customers and a year of customer ledger entries.</p>
+        <ol>
+          <li>Create a company, for example <code>demo01</code> with the display name &ldquo;Demo Company 01&rdquo;, and switch to it with <kbd>Ctrl</kbd>+<kbd>O</kbd>.</li>
+          <li>Add a Job Queue line with Object ID to Run <code>901</code> and Parameter <code>SMALL</code> (20 customers, about 540 ledger entries).</li>
+          <li>Run it with <kbd>F9</kbd>.</li>
+        </ol>
+        <p class="note"><strong>Never run it in a company with real data.</strong> If the company already has customers, it deletes the company&rsquo;s data first.</p>
+
+        <h2 id="server">Run it on a server</h2>
+        <p>For real use, run GoEasyERP on a Linux server with Docker and git. It serves users over HTTPS through nginx on ports 80 and 443, and uses the same pre-built images as the trial installation.</p>
+
+        <h3 id="first-install">First installation</h3>
+<pre><code>git clone https://github.com/hansjlachmann/goeasyerp.git ~/openerp &amp;&amp; cd ~/openerp
+cp prod.env.example prod.env &amp;&amp; chmod 600 prod.env
+# edit prod.env: APP_VERSION, JWT_SECRET, POSTGRES_PASSWORD
+./generate-cert.sh            # or put your own certificate into certs/
+scripts/prod.sh pull &amp;&amp; scripts/prod.sh up -d</code></pre>
+        <p>The settings are in <code>prod.env</code>, which is not tracked by git because it holds secrets:</p>
+        <table>
+          <thead><tr><th scope="col">Setting</th><th scope="col">What it does</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>APP_VERSION</code></th><td>The release to run.</td></tr>
+            <tr><th scope="row"><code>JWT_SECRET</code></th><td>Signs sessions. Generate it once with <code>openssl rand -hex 32</code>. Without it, every restart logs all users out.</td></tr>
+            <tr><th scope="row"><code>POSTGRES_PASSWORD</code></th><td>Password of the database user. It is only applied when the database is first created, so choose a strong one now.</td></tr>
+            <tr><th scope="row"><code>PUBLISH_HOST</code></th><td>Where the backend and frontend ports are published. The default, <code>127.0.0.1</code>, means this host only.</td></tr>
+          </tbody>
+        </table>
+        <p><code>prod.env.example</code> lists the optional settings as well.</p>
+        <p>Always use <code>scripts/prod.sh</code> instead of plain <code>docker compose</code>. It passes <code>prod.env</code> and <code>docker-compose.prod.yml</code> for you:</p>
+<pre><code>scripts/prod.sh ps
+scripts/prod.sh logs backend --since 10m</code></pre>
+        <p class="note"><strong>Never run <code>docker compose down -v</code> or <code>docker volume prune</code>,</strong> and do not rename or move the folder you cloned into. The database lives in a volume named after that folder, so a renamed folder gets a new, empty database.</p>
+
+        <h3 id="ports">Ports</h3>
+        <table>
+          <thead><tr><th scope="col">Service</th><th scope="col">Published</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">nginx</th><td>80 and 443 on all interfaces. This is the way in for users; port 80 redirects to 443.</td></tr>
+            <tr><th scope="row">backend</th><td><code>PUBLISH_HOST</code>:8080</td></tr>
+            <tr><th scope="row">frontend</th><td><code>PUBLISH_HOST</code>:3000</td></tr>
+            <tr><th scope="row">database</th><td>127.0.0.1:5432. Use an SSH tunnel for admin tools.</td></tr>
+          </tbody>
+        </table>
+
+        <h2 id="upgrade">Upgrading</h2>
+        <p><strong>Trial installation:</strong> download <code>docker-compose.local.yml</code> again, keep your <code>JWT_SECRET</code>, then in the same folder:</p>
+<pre><code>docker compose pull
+docker compose up -d</code></pre>
+        <p><strong>Server:</strong> take a backup, set the new <code>APP_VERSION</code> in <code>prod.env</code> and pull:</p>
+<pre><code>cd ~/openerp
+scripts/backup.sh
+scripts/prod.sh pull &amp;&amp; scripts/prod.sh up -d
+scripts/prod.sh logs backend --since 5m</code></pre>
+        <p>Database migrations run automatically at startup. To roll back, set the previous <code>APP_VERSION</code> and run <code>pull</code> and <code>up -d</code> again. If a migration changed data in a way the old version cannot read, restore the backup you took before upgrading.</p>
+
+        <h2 id="backups">Backups</h2>
+        <p><code>scripts/backup.sh</code> dumps the database into <code>~/backups</code> and deletes automatic backups older than 14 days. To run it daily at 02:15, add this with <code>crontab -e</code>:</p>
+<pre><code>15 2 * * * $HOME/openerp/scripts/backup.sh &gt;&gt; $HOME/backups/backup.log 2&gt;&amp;1</code></pre>
+        <p>Backups on the same disk do not survive a disk failure, so copy them to another machine as well. Restoring, restoring into a scratch database to inspect a backup, changing the database password and the JWT secret are described in the <a href="https://github.com/hansjlachmann/goeasyerp/blob/main/docs/operations.md" rel="noopener">operations guide</a> on GitHub.</p>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>GoEasyERP · open source under the MIT licence · goeasyerp.com</p>
+      <p class="muted">ERP Development AS</p>
+      <p class="links"><a href="/docs/">Docs</a><a href="https://github.com/hansjlachmann/goeasyerp" rel="noopener">GitHub</a><a href="https://www.linkedin.com/company/goeasyerp" rel="noopener">LinkedIn</a></p>
+    </div>
+  </footer>
+</body>
+</html>
