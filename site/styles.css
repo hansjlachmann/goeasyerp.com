@@ -144,3 +144,5 @@ main>section h2{font-size:1.625rem;margin-bottom:1.5rem}
 .prose thead th{color:var(--slate);border-bottom-color:var(--grey)}
 .prose tbody th{font-weight:600;white-space:nowrap}
 .doc-index{list-style:none;padding:0!important}
+.prose .file-name{margin:1.5rem 0 0;font-size:.9375rem}
+.prose .file-name+pre{margin-top:.5rem}

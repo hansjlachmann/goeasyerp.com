@@ -58,12 +58,16 @@ kubectl -n goeasyerp create secret generic goeasyerp-secret \
         <p>If you keep your cluster configuration in git, encrypt the Secret first with a tool such as SOPS or Sealed Secrets. Never commit it as plain text.</p>
 
         <h2 id="manifests">2. Manifests</h2>
-        <p>Save this as <code>goeasyerp.yaml</code>. Then:</p>
+        <p>Create a folder called <code>goeasyerp</code> and save each of the boxes below in it as a file with the name shown above the box. Before you apply them:</p>
         <ul>
           <li>Replace both <code>VERSION</code> placeholders with the release you want to run, the same one for the backend and the frontend. The versions are listed on the <a href="https://github.com/hansjlachmann/goeasyerp/releases" rel="noopener">releases page</a>.</li>
-          <li>Replace <code>erp.example.com</code> with your hostname. <code>ORIGIN</code> must be the exact public address, including <code>https://</code>.</li>
-          <li>Set <code>ingressClassName</code> and the certificate to match your cluster.</li>
+          <li>Replace <code>erp.example.com</code> with your hostname. In the frontend, <code>ORIGIN</code> must be the exact public address, including <code>https://</code>.</li>
+          <li>Set <code>ingressClassName</code> and the certificate in the Ingress to match your cluster.</li>
         </ul>
+
+        <h3 id="m-volume">PersistentVolumeClaim</h3>
+        <p>The storage for the database.</p>
+        <p class="file-name"><code>postgres-volume.yaml</code> &ndash; storage for the database</p>
 <pre><code>apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -73,9 +77,12 @@ spec:
   accessModes: [ReadWriteOnce]
   resources:
     requests:
-      storage: 10Gi
----
-apiVersion: apps/v1
+      storage: 10Gi</code></pre>
+
+        <h3 id="m-deployments">Deployments</h3>
+        <p>The database, the backend and the frontend. The database uses <code>strategy: Recreate</code> on purpose: with the default rolling update, the old and the new pod could run on the same data directory at once, which can corrupt the database.</p>
+        <p class="file-name"><code>postgres-deployment.yaml</code> &ndash; the database</p>
+<pre><code>apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: goeasyerp-postgres
@@ -110,9 +117,9 @@ spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: goeasyerp-postgres
----
-apiVersion: apps/v1
+            claimName: goeasyerp-postgres</code></pre>
+        <p class="file-name"><code>backend-deployment.yaml</code> &ndash; the backend</p>
+<pre><code>apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: goeasyerp-backend
@@ -143,9 +150,9 @@ spec:
               valueFrom:
                 secretKeyRef: {name: goeasyerp-secret, key: jwt-secret}
           securityContext:
-            allowPrivilegeEscalation: false
----
-apiVersion: apps/v1
+            allowPrivilegeEscalation: false</code></pre>
+        <p class="file-name"><code>frontend-deployment.yaml</code> &ndash; the frontend</p>
+<pre><code>apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: goeasyerp-frontend
@@ -168,30 +175,36 @@ spec:
             - {name: ORIGIN, value: "https://erp.example.com"}    # the public address
             - {name: BACKEND_URL, value: "http://goeasyerp-backend:8080"}
           securityContext:
-            allowPrivilegeEscalation: false
----
-apiVersion: v1
+            allowPrivilegeEscalation: false</code></pre>
+
+        <h3 id="m-services">Services</h3>
+        <p>One Service for each Deployment, so the pods can reach each other by name.</p>
+        <p class="file-name"><code>postgres-service.yaml</code> &ndash; the database</p>
+<pre><code>apiVersion: v1
 kind: Service
 metadata: {name: goeasyerp-postgres, namespace: goeasyerp}
 spec:
   selector: {app: goeasyerp-postgres}
-  ports: [{port: 5432}]
----
-apiVersion: v1
+  ports: [{port: 5432}]</code></pre>
+        <p class="file-name"><code>backend-service.yaml</code> &ndash; the backend</p>
+<pre><code>apiVersion: v1
 kind: Service
 metadata: {name: goeasyerp-backend, namespace: goeasyerp}
 spec:
   selector: {app: goeasyerp-backend}
-  ports: [{port: 8080}]
----
-apiVersion: v1
+  ports: [{port: 8080}]</code></pre>
+        <p class="file-name"><code>frontend-service.yaml</code> &ndash; the frontend</p>
+<pre><code>apiVersion: v1
 kind: Service
 metadata: {name: goeasyerp-frontend, namespace: goeasyerp}
 spec:
   selector: {app: goeasyerp-frontend}
-  ports: [{port: 3000}]
----
-apiVersion: networking.k8s.io/v1
+  ports: [{port: 3000}]</code></pre>
+
+        <h3 id="m-ingress">Ingress</h3>
+        <p>Makes GoEasyERP available at your hostname: the frontend at <code>/</code> and the backend at <code>/api</code>.</p>
+        <p class="file-name"><code>ingress.yaml</code> &ndash; the Ingress</p>
+<pre><code>apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: goeasyerp
@@ -213,10 +226,9 @@ spec:
             pathType: Prefix
             backend:
               service: {name: goeasyerp-backend, port: {number: 8080}}</code></pre>
-        <p>The database uses <code>strategy: Recreate</code> on purpose. With the default rolling update, the old and the new pod could run on the same data directory at once, which can corrupt the database.</p>
 
         <h2 id="start">3. Start it</h2>
-<pre><code>kubectl apply -f goeasyerp.yaml
+<pre><code>kubectl apply -f goeasyerp/
 kubectl -n goeasyerp get pods
 kubectl -n goeasyerp logs deploy/goeasyerp-backend</code></pre>
         <p>When all three pods are <code>Running</code>, open <code>https://erp.example.com</code> and create the first user. Database migrations run automatically when the backend starts. They take a lock, so backend pods starting at the same time are safe.</p>
@@ -226,7 +238,7 @@ kubectl -n goeasyerp logs deploy/goeasyerp-backend</code></pre>
         <h2 id="upgrade">Upgrading</h2>
         <ol>
           <li>Take a backup (see below).</li>
-          <li>Change both image versions in <code>goeasyerp.yaml</code> to the new release and run <code>kubectl apply -f goeasyerp.yaml</code>.</li>
+          <li>Change the image version in <code>backend-deployment.yaml</code> and <code>frontend-deployment.yaml</code> to the new release and run <code>kubectl apply -f goeasyerp/</code>.</li>
           <li>Watch the backend log for migration messages and errors: <code>kubectl -n goeasyerp logs deploy/goeasyerp-backend</code>.</li>
         </ol>
         <p>To roll back, set the previous version and apply again. If a migration changed data in a way the old version cannot read, restore the backup you took before upgrading.</p>
