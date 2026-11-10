@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Installation on Windows – GoEasyERP documentation</title>
+  <meta name="description" content="How to install GoEasyERP on Windows 10, Windows 11 and Windows Server with Docker.">
+  <meta name="theme-color" content="#1F2933">
+  <link rel="icon" href="/assets/goeasyerp-icon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/goeasyerp-icon-180.png">
+  <link rel="preload" href="/assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GoEasyERP">
+  <meta property="og:title" content="Installation on Windows – GoEasyERP documentation">
+  <meta property="og:description" content="How to install GoEasyERP on Windows 10, Windows 11 and Windows Server with Docker.">
+  <meta property="og:url" content="https://goeasyerp.com/docs/installation-windows/">
+  <meta property="og:image" content="https://goeasyerp.com/assets/goeasyerp-share.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="627">
+  <meta property="og:image:alt" content="GoEasyERP – Open-source ERP for small businesses">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap bar">
+      <a href="/" class="brand">
+        <img src="/assets/goeasyerp-wordmark-offwhite.svg" alt="GoEasyERP" width="575" height="119">
+      </a>
+      <nav class="header-nav" aria-label="Main">
+        <a class="header-link" href="/docs/" aria-current="page">Docs</a>
+        <a class="header-link" href="https://github.com/hansjlachmann/goeasyerp" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="wrap docs">
+      <nav class="docs-nav" aria-label="Documentation"><p class="docs-nav-title">Documentation</p><ul><li><a href="/docs/installation-windows/" aria-current="page">Installation: Windows</a></li><li><a href="/docs/installation-linux-macos/">Installation: Linux and macOS</a></li><li><a href="/docs/installation-kubernetes/">Installation: Kubernetes</a></li></ul></nav>
+      <article class="prose">
+        <h1>Installation: Windows</h1>
+        <p>This guide installs GoEasyERP on a Windows computer with Docker Desktop. For Linux and macOS see <a href="/docs/installation-linux-macos/">Installation: Linux and macOS</a>.</p>
+        <p>You need Windows 10 22H2 or Windows 11 (64-bit), about 4&nbsp;GB of free memory and 10&nbsp;GB of disk, and virtualization enabled in the BIOS/UEFI (Task Manager &rarr; Performance &rarr; CPU shows &ldquo;Virtualization: Enabled&rdquo;).</p>
+
+        <h2 id="install">Install</h2>
+        <ol>
+          <li>Install <a href="https://www.docker.com/products/docker-desktop/" rel="noopener">Docker Desktop</a> with &ldquo;Use WSL 2&rdquo; checked, restart when asked, and start Docker Desktop until it shows &ldquo;Engine running&rdquo;.</li>
+          <li>In PowerShell:
+<pre><code>mkdir C:\GoEasyERP; cd C:\GoEasyERP
+Invoke-WebRequest https://raw.githubusercontent.com/hansjlachmann/goeasyerp/main/docker-compose.local.yml -OutFile docker-compose.yml
+notepad docker-compose.yml      # replace JWT_SECRET with any long random text, save
+docker compose up -d</code></pre></li>
+          <li>After 2&ndash;3 minutes open <code>http://localhost:8000</code> and create the first user.</li>
+        </ol>
+        <p>Check that <code>docker info --format "{{.OSType}}"</code> prints <code>linux</code>. If it prints <code>windows</code>, right-click the Docker icon in the taskbar and choose &ldquo;Switch to Linux containers&rdquo;.</p>
+        <p>Stop GoEasyERP with <code>docker compose stop</code> and start it again with <code>docker compose start</code>, in <code>C:\GoEasyERP</code>. It also starts whenever Docker Desktop runs; to start Docker Desktop at sign-in, tick Settings &rarr; General &rarr; &ldquo;Start Docker Desktop when you sign in&rdquo;.</p>
+        <p class="note"><strong>Never run <code>docker compose down -v</code>.</strong> It deletes the database.</p>
+        <p>This installation is reachable from this computer only. To open it from other computers, change the line <code>"127.0.0.1:8000:80"</code> in <code>docker-compose.yml</code> to <code>"8000:80"</code>, set <code>ORIGIN</code> to <code>http://&lt;computer name&gt;:8000</code> and open port 8000 in the Windows firewall.</p>
+        <p>Docker Desktop is free for personal use, education and small businesses (fewer than 250 employees and less than USD&nbsp;10 million annual revenue). Larger companies need a paid Docker subscription, or can use Docker Engine in WSL2, which is free.</p>
+
+        <h2 id="upgrade">Upgrade</h2>
+        <p>Download <code>docker-compose.local.yml</code> again and save it over <code>docker-compose.yml</code>, keeping your <code>JWT_SECRET</code>. Then, in <code>C:\GoEasyERP</code>:</p>
+<pre><code>docker compose pull
+docker compose up -d</code></pre>
+
+        <h2 id="demo-data">Demo data</h2>
+        <p>To look around with sample data, GoEasyERP can fill a company with demo customers and a year of customer ledger entries.</p>
+        <ol>
+          <li>Create a company, for example <code>demo01</code> with the display name &ldquo;Demo Company 01&rdquo;, and switch to it with <kbd>Ctrl</kbd>+<kbd>O</kbd>.</li>
+          <li>Add a Job Queue line with Object ID to Run <code>901</code> and Parameter <code>SMALL</code> (20 customers, about 540 ledger entries).</li>
+          <li>Run it with <kbd>F9</kbd>.</li>
+        </ol>
+        <p class="note"><strong>Never run it in a company with real data.</strong> If the company already has customers, it deletes the company&rsquo;s data first.</p>
+
+        <h2 id="windows-server">Windows Server</h2>
+        <p>Docker Desktop is not supported on Windows Server, and the Docker Engine there runs Windows containers only, which cannot run GoEasyERP. Use Docker Engine in WSL2 (Windows Server 2022 and 2025), or a Linux virtual machine in Hyper-V, which is the better choice for a server several people use. In Ubuntu or the Linux VM:</p>
+<pre><code>curl -fsSL https://get.docker.com | sudo sh
+sudo usermod -aG docker $USER   # log out and in again
+mkdir ~/goeasyerp &amp;&amp; cd ~/goeasyerp
+curl -o docker-compose.yml https://raw.githubusercontent.com/hansjlachmann/goeasyerp/main/docker-compose.local.yml
+nano docker-compose.yml         # replace JWT_SECRET
+docker compose up -d</code></pre>
+        <p>With Docker Engine in WSL2, Windows also needs a port forwarding to WSL (<code>netsh interface portproxy</code>) before other computers can reach it; a Linux VM does not. For a server with HTTPS and backups, follow the server installation in <a href="/docs/installation-linux-macos/#server">Installation: Linux and macOS</a>, inside Ubuntu or the Linux VM.</p>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>GoEasyERP · open source under the MIT licence · goeasyerp.com</p>
+      <p class="muted">ERP Development AS</p>
+      <p class="links"><a href="/docs/">Docs</a><a href="https://github.com/hansjlachmann/goeasyerp" rel="noopener">GitHub</a><a href="https://www.linkedin.com/company/goeasyerp" rel="noopener">LinkedIn</a></p>
+    </div>
+  </footer>
+</body>
+</html>

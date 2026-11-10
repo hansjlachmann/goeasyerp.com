@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Installation – GoEasyERP documentation</title>
-  <meta name="description" content="How to install GoEasyERP: try it on your own computer with Docker Desktop, or run it on a Linux server with HTTPS and backups.">
+  <title>Installation on Linux and macOS – GoEasyERP documentation</title>
+  <meta name="description" content="How to install GoEasyERP on Linux and macOS: try it on your own computer, or run it on a server with HTTPS and backups.">
   <meta name="theme-color" content="#1F2933">
   <link rel="icon" href="/assets/goeasyerp-icon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="/assets/goeasyerp-icon-180.png">
   <link rel="preload" href="/assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="GoEasyERP">
-  <meta property="og:title" content="Installation – GoEasyERP documentation">
-  <meta property="og:description" content="How to install GoEasyERP: try it on your own computer with Docker Desktop, or run it on a Linux server with HTTPS and backups.">
-  <meta property="og:url" content="https://goeasyerp.com/docs/installation/">
+  <meta property="og:title" content="Installation on Linux and macOS – GoEasyERP documentation">
+  <meta property="og:description" content="How to install GoEasyERP on Linux and macOS: try it on your own computer, or run it on a server with HTTPS and backups.">
+  <meta property="og:url" content="https://goeasyerp.com/docs/installation-linux-macos/">
   <meta property="og:image" content="https://goeasyerp.com/assets/goeasyerp-share.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="627">
@@ -38,51 +38,38 @@
 
   <main id="main">
     <div class="wrap docs">
-      <nav class="docs-nav" aria-label="Documentation"><p class="docs-nav-title">Documentation</p><ul><li><a href="/docs/installation/" aria-current="page">Installation</a></li></ul></nav>
+      <nav class="docs-nav" aria-label="Documentation"><p class="docs-nav-title">Documentation</p><ul><li><a href="/docs/installation-windows/">Installation: Windows</a></li><li><a href="/docs/installation-linux-macos/" aria-current="page">Installation: Linux and macOS</a></li><li><a href="/docs/installation-kubernetes/">Installation: Kubernetes</a></li></ul></nav>
       <article class="prose">
-        <h1>Installation</h1>
-        <p>GoEasyERP runs in Docker, with its data in a PostgreSQL database. There are two ways to install it:</p>
+        <h1>Installation: Linux and macOS</h1>
+        <p>This guide installs GoEasyERP on Linux or macOS, either as a trial on your own computer or on a server. For Windows see <a href="/docs/installation-windows/">Installation: Windows</a>.</p>
+        <p>GoEasyERP runs in Docker, with its data in a PostgreSQL database. You need about 4&nbsp;GB of free memory and 10&nbsp;GB of disk.</p>
         <ul>
-          <li><a href="#try">Try it on your own computer</a>: on Windows, macOS or Linux, with only Docker Desktop installed.</li>
-          <li><a href="#server">Run it on a server</a>: HTTPS, backups and settings for real use.</li>
+          <li><a href="#try">Try it on your own computer</a></li>
+          <li><a href="#server">Run it on a server</a>: HTTPS, backups and settings for real use</li>
         </ul>
-        <p>You need about 4&nbsp;GB of free memory and 10&nbsp;GB of disk.</p>
 
         <h2 id="try">Try it on your own computer</h2>
-        <p>Install <a href="https://www.docker.com/products/docker-desktop/" rel="noopener">Docker Desktop</a>. Nothing else is needed.</p>
-        <ol>
-          <li>Download <a href="https://raw.githubusercontent.com/hansjlachmann/goeasyerp/main/docker-compose.local.yml" rel="noopener"><code>docker-compose.local.yml</code></a> and save it as <code>docker-compose.yml</code> in a folder of its own, for example <code>C:\GoEasyERP</code>.</li>
-          <li>Open the file in a text editor and replace the value of <code>JWT_SECRET</code> with any long random text.</li>
-          <li>In that folder, run:
-<pre><code>docker compose up -d</code></pre></li>
-          <li>After 2&ndash;3 minutes open <code>http://localhost:8000</code> and create the first user.</li>
-        </ol>
-        <p>Stop it with <code>docker compose stop</code> and start it again with <code>docker compose start</code>.</p>
-        <p class="note"><strong>Never run <code>docker compose down -v</code>.</strong> It deletes the database.</p>
-        <p>The trial installation is reachable from this computer only. To open it from other computers, change the line <code>"127.0.0.1:8000:80"</code> to <code>"8000:80"</code>, set <code>ORIGIN</code> to <code>http://&lt;computer name&gt;:8000</code> and open port 8000 in the firewall. For anything several people use, follow the server installation below instead.</p>
+        <h3 id="try-macos">macOS</h3>
+        <p>Install <a href="https://www.docker.com/products/docker-desktop/" rel="noopener">Docker Desktop</a> and start it. Then, in Terminal:</p>
+<pre><code>mkdir ~/goeasyerp &amp;&amp; cd ~/goeasyerp
+curl -o docker-compose.yml https://raw.githubusercontent.com/hansjlachmann/goeasyerp/main/docker-compose.local.yml
+open -e docker-compose.yml      # replace JWT_SECRET with any long random text, save
+docker compose up -d</code></pre>
 
-        <h3 id="windows">Windows 10 and 11</h3>
-        <p>You need Windows 10 22H2 or Windows 11 (64-bit) with virtualization enabled in the BIOS/UEFI (Task Manager &rarr; Performance &rarr; CPU shows &ldquo;Virtualization: Enabled&rdquo;).</p>
-        <ol>
-          <li>Install Docker Desktop with &ldquo;Use WSL 2&rdquo; checked, restart when asked, and start Docker Desktop until it shows &ldquo;Engine running&rdquo;.</li>
-          <li>In PowerShell:
-<pre><code>mkdir C:\GoEasyERP; cd C:\GoEasyERP
-Invoke-WebRequest https://raw.githubusercontent.com/hansjlachmann/goeasyerp/main/docker-compose.local.yml -OutFile docker-compose.yml
-notepad docker-compose.yml      # replace JWT_SECRET, save
-docker compose up -d</code></pre></li>
-          <li>After 2&ndash;3 minutes open <code>http://localhost:8000</code>.</li>
-        </ol>
-        <p>Check that <code>docker info --format "{{.OSType}}"</code> prints <code>linux</code>. If it prints <code>windows</code>, right-click the Docker icon in the taskbar and choose &ldquo;Switch to Linux containers&rdquo;. GoEasyERP starts whenever Docker Desktop runs; to start it at sign-in, tick Settings &rarr; General &rarr; &ldquo;Start Docker Desktop when you sign in&rdquo;.</p>
-        <p>Docker Desktop is free for personal use, education and small businesses (fewer than 250 employees and less than USD&nbsp;10 million annual revenue). Larger companies need a paid Docker subscription, or can use Docker Engine in WSL2, which is free.</p>
-
-        <h3 id="windows-server">Windows Server</h3>
-        <p>Docker Desktop is not supported on Windows Server, and the Docker Engine there runs Windows containers only, which cannot run GoEasyERP. Use Docker Engine in WSL2 (Windows Server 2022 and 2025), or a Linux virtual machine in Hyper-V, which is the better choice for a server several people use. In Ubuntu or the Linux VM:</p>
+        <h3 id="try-linux">Linux</h3>
+        <p>Install Docker Engine, for example on Ubuntu, and then start GoEasyERP:</p>
 <pre><code>curl -fsSL https://get.docker.com | sudo sh
 sudo usermod -aG docker $USER   # log out and in again
 mkdir ~/goeasyerp &amp;&amp; cd ~/goeasyerp
 curl -o docker-compose.yml https://raw.githubusercontent.com/hansjlachmann/goeasyerp/main/docker-compose.local.yml
-nano docker-compose.yml         # replace JWT_SECRET
+nano docker-compose.yml         # replace JWT_SECRET with any long random text
 docker compose up -d</code></pre>
+
+        <p>On both systems, wait 2&ndash;3 minutes, then open <code>http://localhost:8000</code> and create the first user.</p>
+        <p>Stop GoEasyERP with <code>docker compose stop</code> and start it again with <code>docker compose start</code>, in the <code>goeasyerp</code> folder.</p>
+        <p class="note"><strong>Never run <code>docker compose down -v</code>.</strong> It deletes the database.</p>
+        <p>The trial installation is reachable from this computer only. To open it from other computers, change the line <code>"127.0.0.1:8000:80"</code> to <code>"8000:80"</code>, set <code>ORIGIN</code> to <code>http://&lt;computer name&gt;:8000</code> and open port 8000 in the firewall. For anything several people use, follow the server installation below instead.</p>
+        <p><strong>Upgrade:</strong> download <code>docker-compose.local.yml</code> again over <code>docker-compose.yml</code>, keep your <code>JWT_SECRET</code>, then run <code>docker compose pull</code> and <code>docker compose up -d</code>.</p>
 
         <h3 id="demo-data">Demo data</h3>
         <p>To look around with sample data, GoEasyERP can fill a company with demo customers and a year of customer ledger entries.</p>
@@ -129,18 +116,15 @@ scripts/prod.sh logs backend --since 10m</code></pre>
           </tbody>
         </table>
 
-        <h2 id="upgrade">Upgrading</h2>
-        <p><strong>Trial installation:</strong> download <code>docker-compose.local.yml</code> again, keep your <code>JWT_SECRET</code>, then in the same folder:</p>
-<pre><code>docker compose pull
-docker compose up -d</code></pre>
-        <p><strong>Server:</strong> take a backup, set the new <code>APP_VERSION</code> in <code>prod.env</code> and pull:</p>
+        <h3 id="server-upgrade">Upgrading the server</h3>
+        <p>Take a backup, set the new <code>APP_VERSION</code> in <code>prod.env</code> and pull:</p>
 <pre><code>cd ~/openerp
 scripts/backup.sh
 scripts/prod.sh pull &amp;&amp; scripts/prod.sh up -d
 scripts/prod.sh logs backend --since 5m</code></pre>
         <p>Database migrations run automatically at startup. To roll back, set the previous <code>APP_VERSION</code> and run <code>pull</code> and <code>up -d</code> again. If a migration changed data in a way the old version cannot read, restore the backup you took before upgrading.</p>
 
-        <h2 id="backups">Backups</h2>
+        <h3 id="backups">Backups</h3>
         <p><code>scripts/backup.sh</code> dumps the database into <code>~/backups</code> and deletes automatic backups older than 14 days. To run it daily at 02:15, add this with <code>crontab -e</code>:</p>
 <pre><code>15 2 * * * $HOME/openerp/scripts/backup.sh &gt;&gt; $HOME/backups/backup.log 2&gt;&amp;1</code></pre>
         <p>Backups on the same disk do not survive a disk failure, so copy them to another machine as well. Restoring, restoring into a scratch database to inspect a backup, changing the database password and the JWT secret are described in the <a href="https://github.com/hansjlachmann/goeasyerp/blob/main/docs/operations.md" rel="noopener">operations guide</a> on GitHub.</p>
