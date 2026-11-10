@@ -145,4 +145,12 @@ main>section h2{font-size:1.625rem;margin-bottom:1.5rem}
 .prose tbody th{font-weight:600;white-space:nowrap}
 .doc-index{list-style:none;padding:0!important}
 .prose .file-name{margin:1.5rem 0 0;font-size:.9375rem}
-.prose .file-name+pre{margin-top:.5rem}
+.prose .file-name+.code{margin-top:.5rem}
+
+/* Code boxes with a copy button */
+.prose .code{position:relative;margin:.75rem 0 1.25rem}
+.prose .code pre{margin:0;padding-right:3.5rem}
+.prose .copy{position:absolute;top:.5rem;right:.5rem;display:flex;align-items:center;justify-content:center;width:2.25rem;height:2.25rem;padding:0;color:var(--offwhite);background:rgba(255,255,255,.08);border:1px solid rgba(138,150,163,.5);border-radius:.375rem;cursor:pointer}
+.prose .copy:hover{background:rgba(255,255,255,.18)}
+.prose .copy:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.prose .copy.copied{color:var(--amber);border-color:var(--amber)}

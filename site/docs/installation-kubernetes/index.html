@@ -51,10 +51,10 @@
 
         <h2 id="secret">1. Namespace and secret</h2>
         <p>The database password and the key that signs sessions go into a Secret, not into the manifests:</p>
-<pre><code>kubectl create namespace goeasyerp
+<div class="code"><pre><code>kubectl create namespace goeasyerp
 kubectl -n goeasyerp create secret generic goeasyerp-secret \
   --from-literal=db-password="$(openssl rand -hex 24)" \
-  --from-literal=jwt-secret="$(openssl rand -hex 32)"</code></pre>
+  --from-literal=jwt-secret="$(openssl rand -hex 32)"</code></pre></div>
         <p>If you keep your cluster configuration in git, encrypt the Secret first with a tool such as SOPS or Sealed Secrets. Never commit it as plain text.</p>
 
         <h2 id="manifests">2. Manifests</h2>
@@ -68,7 +68,7 @@ kubectl -n goeasyerp create secret generic goeasyerp-secret \
         <h3 id="m-volume">PersistentVolumeClaim</h3>
         <p>The storage for the database.</p>
         <p class="file-name"><code>postgres-volume.yaml</code> &ndash; storage for the database</p>
-<pre><code>apiVersion: v1
+<div class="code"><pre><code>apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: goeasyerp-postgres
@@ -77,12 +77,12 @@ spec:
   accessModes: [ReadWriteOnce]
   resources:
     requests:
-      storage: 10Gi</code></pre>
+      storage: 10Gi</code></pre></div>
 
         <h3 id="m-deployments">Deployments</h3>
         <p>The database, the backend and the frontend. The database uses <code>strategy: Recreate</code> on purpose: with the default rolling update, the old and the new pod could run on the same data directory at once, which can corrupt the database.</p>
         <p class="file-name"><code>postgres-deployment.yaml</code> &ndash; the database</p>
-<pre><code>apiVersion: apps/v1
+<div class="code"><pre><code>apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: goeasyerp-postgres
@@ -117,9 +117,9 @@ spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: goeasyerp-postgres</code></pre>
+            claimName: goeasyerp-postgres</code></pre></div>
         <p class="file-name"><code>backend-deployment.yaml</code> &ndash; the backend</p>
-<pre><code>apiVersion: apps/v1
+<div class="code"><pre><code>apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: goeasyerp-backend
@@ -150,9 +150,9 @@ spec:
               valueFrom:
                 secretKeyRef: {name: goeasyerp-secret, key: jwt-secret}
           securityContext:
-            allowPrivilegeEscalation: false</code></pre>
+            allowPrivilegeEscalation: false</code></pre></div>
         <p class="file-name"><code>frontend-deployment.yaml</code> &ndash; the frontend</p>
-<pre><code>apiVersion: apps/v1
+<div class="code"><pre><code>apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: goeasyerp-frontend
@@ -175,36 +175,36 @@ spec:
             - {name: ORIGIN, value: "https://erp.example.com"}    # the public address
             - {name: BACKEND_URL, value: "http://goeasyerp-backend:8080"}
           securityContext:
-            allowPrivilegeEscalation: false</code></pre>
+            allowPrivilegeEscalation: false</code></pre></div>
 
         <h3 id="m-services">Services</h3>
         <p>One Service for each Deployment, so the pods can reach each other by name.</p>
         <p class="file-name"><code>postgres-service.yaml</code> &ndash; the database</p>
-<pre><code>apiVersion: v1
+<div class="code"><pre><code>apiVersion: v1
 kind: Service
 metadata: {name: goeasyerp-postgres, namespace: goeasyerp}
 spec:
   selector: {app: goeasyerp-postgres}
-  ports: [{port: 5432}]</code></pre>
+  ports: [{port: 5432}]</code></pre></div>
         <p class="file-name"><code>backend-service.yaml</code> &ndash; the backend</p>
-<pre><code>apiVersion: v1
+<div class="code"><pre><code>apiVersion: v1
 kind: Service
 metadata: {name: goeasyerp-backend, namespace: goeasyerp}
 spec:
   selector: {app: goeasyerp-backend}
-  ports: [{port: 8080}]</code></pre>
+  ports: [{port: 8080}]</code></pre></div>
         <p class="file-name"><code>frontend-service.yaml</code> &ndash; the frontend</p>
-<pre><code>apiVersion: v1
+<div class="code"><pre><code>apiVersion: v1
 kind: Service
 metadata: {name: goeasyerp-frontend, namespace: goeasyerp}
 spec:
   selector: {app: goeasyerp-frontend}
-  ports: [{port: 3000}]</code></pre>
+  ports: [{port: 3000}]</code></pre></div>
 
         <h3 id="m-ingress">Ingress</h3>
         <p>Makes GoEasyERP available at your hostname: the frontend at <code>/</code> and the backend at <code>/api</code>.</p>
         <p class="file-name"><code>ingress.yaml</code> &ndash; the Ingress</p>
-<pre><code>apiVersion: networking.k8s.io/v1
+<div class="code"><pre><code>apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: goeasyerp
@@ -225,12 +225,12 @@ spec:
           - path: /api
             pathType: Prefix
             backend:
-              service: {name: goeasyerp-backend, port: {number: 8080}}</code></pre>
+              service: {name: goeasyerp-backend, port: {number: 8080}}</code></pre></div>
 
         <h2 id="start">3. Start it</h2>
-<pre><code>kubectl apply -f goeasyerp/
+<div class="code"><pre><code>kubectl apply -f goeasyerp/
 kubectl -n goeasyerp get pods
-kubectl -n goeasyerp logs deploy/goeasyerp-backend</code></pre>
+kubectl -n goeasyerp logs deploy/goeasyerp-backend</code></pre></div>
         <p>When all three pods are <code>Running</code>, open <code>https://erp.example.com</code> and create the first user. Database migrations run automatically when the backend starts. They take a lock, so backend pods starting at the same time are safe.</p>
         <p class="note"><strong>Do not delete the <code>goeasyerp-postgres</code> volume claim.</strong> It holds the database.</p>
         <p>To use a database outside the cluster instead, leave out the PostgreSQL Deployment, Service and volume claim, and point the backend&rsquo;s <code>DB_HOST</code>, <code>DB_PORT</code>, <code>DB_USER</code> and <code>DB_NAME</code> at it.</p>
@@ -245,7 +245,7 @@ kubectl -n goeasyerp logs deploy/goeasyerp-backend</code></pre>
 
         <h2 id="backups">Backups</h2>
         <p>This CronJob dumps the database every night at 02:15 into its own volume and keeps 14 days. Save it as <code>goeasyerp-backup.yaml</code> and apply it:</p>
-<pre><code>apiVersion: v1
+<div class="code"><pre><code>apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: goeasyerp-backup
@@ -294,19 +294,19 @@ spec:
           volumes:
             - name: backup
               persistentVolumeClaim:
-                claimName: goeasyerp-backup</code></pre>
+                claimName: goeasyerp-backup</code></pre></div>
         <p>Take a backup right now with:</p>
-<pre><code>kubectl -n goeasyerp create job --from=cronjob/goeasyerp-backup goeasyerp-backup-manual</code></pre>
+<div class="code"><pre><code>kubectl -n goeasyerp create job --from=cronjob/goeasyerp-backup goeasyerp-backup-manual</code></pre></div>
         <p>These dumps live in the same cluster as the database. They protect against mistakes such as deleted data or a bad migration, but not against losing the cluster&rsquo;s storage, so copy them off the cluster as well.</p>
 
         <h3 id="restore">Restore</h3>
         <p>Restoring replaces the data of the running database. Start a temporary pod that mounts the backup volume, stop the backend, restore and start the backend again:</p>
-<pre><code>kubectl -n goeasyerp run backup-shell --image=postgres:16 --restart=Never --overrides='{"spec":{"containers":[{"name":"backup-shell","image":"postgres:16","command":["sleep","3600"],"volumeMounts":[{"name":"b","mountPath":"/backup"}]}],"volumes":[{"name":"b","persistentVolumeClaim":{"claimName":"goeasyerp-backup"}}]}}'
+<div class="code"><pre><code>kubectl -n goeasyerp run backup-shell --image=postgres:16 --restart=Never --overrides='{"spec":{"containers":[{"name":"backup-shell","image":"postgres:16","command":["sleep","3600"],"volumeMounts":[{"name":"b","mountPath":"/backup"}]}],"volumes":[{"name":"b","persistentVolumeClaim":{"claimName":"goeasyerp-backup"}}]}}'
 kubectl -n goeasyerp exec backup-shell -- ls -lh /backup
 kubectl -n goeasyerp scale deploy/goeasyerp-backend --replicas=0
 kubectl -n goeasyerp exec -it backup-shell -- pg_restore -h goeasyerp-postgres -U openerp -d openerp --clean --if-exists --no-owner /backup/&lt;file&gt;.dump
 kubectl -n goeasyerp scale deploy/goeasyerp-backend --replicas=1
-kubectl -n goeasyerp delete pod backup-shell</code></pre>
+kubectl -n goeasyerp delete pod backup-shell</code></pre></div>
         <p><code>pg_restore</code> asks for the database password: it is the <code>db-password</code> value of the <code>goeasyerp-secret</code> Secret. Other tasks, such as changing the database password or the JWT secret, are described in the <a href="https://github.com/hansjlachmann/goeasyerp/blob/main/docs/operations.md" rel="noopener">operations guide</a> on GitHub for the Docker installation; the same ideas apply, using the Secret.</p>
 </article>
     </div>
@@ -319,5 +319,6 @@ kubectl -n goeasyerp delete pod backup-shell</code></pre>
       <p class="links"><a href="/docs/">Docs</a><a href="https://github.com/hansjlachmann/goeasyerp" rel="noopener">GitHub</a><a href="https://www.linkedin.com/company/goeasyerp" rel="noopener">LinkedIn</a></p>
     </div>
   </footer>
+  <script src="/docs.js" defer></script>
 </body>
 </html>

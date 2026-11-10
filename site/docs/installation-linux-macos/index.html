@@ -51,19 +51,19 @@
         <h2 id="try">Try it on your own computer</h2>
         <h3 id="try-macos">macOS</h3>
         <p>Install <a href="https://www.docker.com/products/docker-desktop/" rel="noopener">Docker Desktop</a> and start it. Then, in Terminal:</p>
-<pre><code>mkdir ~/goeasyerp &amp;&amp; cd ~/goeasyerp
+<div class="code"><pre><code>mkdir ~/goeasyerp &amp;&amp; cd ~/goeasyerp
 curl -o docker-compose.yml https://raw.githubusercontent.com/hansjlachmann/goeasyerp/main/docker-compose.local.yml
 open -e docker-compose.yml      # replace JWT_SECRET with any long random text, save
-docker compose up -d</code></pre>
+docker compose up -d</code></pre></div>
 
         <h3 id="try-linux">Linux</h3>
         <p>Install Docker Engine, for example on Ubuntu, and then start GoEasyERP:</p>
-<pre><code>curl -fsSL https://get.docker.com | sudo sh
+<div class="code"><pre><code>curl -fsSL https://get.docker.com | sudo sh
 sudo usermod -aG docker $USER   # log out and in again
 mkdir ~/goeasyerp &amp;&amp; cd ~/goeasyerp
 curl -o docker-compose.yml https://raw.githubusercontent.com/hansjlachmann/goeasyerp/main/docker-compose.local.yml
 nano docker-compose.yml         # replace JWT_SECRET with any long random text
-docker compose up -d</code></pre>
+docker compose up -d</code></pre></div>
 
         <p>On both systems, wait 2&ndash;3 minutes, then open <code>http://localhost:8000</code> and create the first user.</p>
         <p>Stop GoEasyERP with <code>docker compose stop</code> and start it again with <code>docker compose start</code>, in the <code>goeasyerp</code> folder.</p>
@@ -84,11 +84,11 @@ docker compose up -d</code></pre>
         <p>For real use, run GoEasyERP on a Linux server with Docker and git. It serves users over HTTPS through nginx on ports 80 and 443, and uses the same pre-built images as the trial installation.</p>
 
         <h3 id="first-install">First installation</h3>
-<pre><code>git clone https://github.com/hansjlachmann/goeasyerp.git ~/openerp &amp;&amp; cd ~/openerp
+<div class="code"><pre><code>git clone https://github.com/hansjlachmann/goeasyerp.git ~/openerp &amp;&amp; cd ~/openerp
 cp prod.env.example prod.env &amp;&amp; chmod 600 prod.env
 # edit prod.env: APP_VERSION, JWT_SECRET, POSTGRES_PASSWORD
 ./generate-cert.sh            # or put your own certificate into certs/
-scripts/prod.sh pull &amp;&amp; scripts/prod.sh up -d</code></pre>
+scripts/prod.sh pull &amp;&amp; scripts/prod.sh up -d</code></pre></div>
         <p>The settings are in <code>prod.env</code>, which is not tracked by git because it holds secrets:</p>
         <table>
           <thead><tr><th scope="col">Setting</th><th scope="col">What it does</th></tr></thead>
@@ -101,8 +101,8 @@ scripts/prod.sh pull &amp;&amp; scripts/prod.sh up -d</code></pre>
         </table>
         <p><code>prod.env.example</code> lists the optional settings as well.</p>
         <p>Always use <code>scripts/prod.sh</code> instead of plain <code>docker compose</code>. It passes <code>prod.env</code> and <code>docker-compose.prod.yml</code> for you:</p>
-<pre><code>scripts/prod.sh ps
-scripts/prod.sh logs backend --since 10m</code></pre>
+<div class="code"><pre><code>scripts/prod.sh ps
+scripts/prod.sh logs backend --since 10m</code></pre></div>
         <p class="note"><strong>Never run <code>docker compose down -v</code> or <code>docker volume prune</code>,</strong> and do not rename or move the folder you cloned into. The database lives in a volume named after that folder, so a renamed folder gets a new, empty database.</p>
 
         <h3 id="ports">Ports</h3>
@@ -118,15 +118,15 @@ scripts/prod.sh logs backend --since 10m</code></pre>
 
         <h3 id="server-upgrade">Upgrading the server</h3>
         <p>Take a backup, set the new <code>APP_VERSION</code> in <code>prod.env</code> and pull:</p>
-<pre><code>cd ~/openerp
+<div class="code"><pre><code>cd ~/openerp
 scripts/backup.sh
 scripts/prod.sh pull &amp;&amp; scripts/prod.sh up -d
-scripts/prod.sh logs backend --since 5m</code></pre>
+scripts/prod.sh logs backend --since 5m</code></pre></div>
         <p>Database migrations run automatically at startup. To roll back, set the previous <code>APP_VERSION</code> and run <code>pull</code> and <code>up -d</code> again. If a migration changed data in a way the old version cannot read, restore the backup you took before upgrading.</p>
 
         <h3 id="backups">Backups</h3>
         <p><code>scripts/backup.sh</code> dumps the database into <code>~/backups</code> and deletes automatic backups older than 14 days. To run it daily at 02:15, add this with <code>crontab -e</code>:</p>
-<pre><code>15 2 * * * $HOME/openerp/scripts/backup.sh &gt;&gt; $HOME/backups/backup.log 2&gt;&amp;1</code></pre>
+<div class="code"><pre><code>15 2 * * * $HOME/openerp/scripts/backup.sh &gt;&gt; $HOME/backups/backup.log 2&gt;&amp;1</code></pre></div>
         <p>Backups on the same disk do not survive a disk failure, so copy them to another machine as well. Restoring, restoring into a scratch database to inspect a backup, changing the database password and the JWT secret are described in the <a href="https://github.com/hansjlachmann/goeasyerp/blob/main/docs/operations.md" rel="noopener">operations guide</a> on GitHub.</p>
       </article>
     </div>
@@ -139,5 +139,6 @@ scripts/prod.sh logs backend --since 5m</code></pre>
       <p class="links"><a href="/docs/">Docs</a><a href="https://github.com/hansjlachmann/goeasyerp" rel="noopener">GitHub</a><a href="https://www.linkedin.com/company/goeasyerp" rel="noopener">LinkedIn</a></p>
     </div>
   </footer>
+  <script src="/docs.js" defer></script>
 </body>
 </html>
