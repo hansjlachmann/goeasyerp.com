@@ -2,6 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://goeasyerp.org/</loc></url>
   <url><loc>https://goeasyerp.org/roadmap/</loc></url>
+  <url><loc>https://goeasyerp.org/demo/</loc></url>
   <url><loc>https://goeasyerp.org/docs/</loc></url>
   <url><loc>https://goeasyerp.org/docs/installation-kubernetes/</loc></url>
   <url><loc>https://goeasyerp.org/docs/installation-linux-macos/</loc></url>

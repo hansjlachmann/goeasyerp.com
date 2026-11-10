@@ -174,3 +174,18 @@ main>section h2{font-size:1.625rem;margin-bottom:1.5rem}
   .brand img{height:1.25rem}
   .header-link{font-size:.875rem;padding:.25rem .3rem}
 }
+
+.hero-note{margin-top:1.25rem;font-size:.9375rem}
+.hero-note a{color:var(--slate);font-weight:600}
+
+/* Demo page */
+.demo-page{padding-top:2.5rem;padding-bottom:4rem}
+.prose.demo-page h2{border-top:0;padding-top:0;margin:2rem 0 1rem}
+.creds{margin:0 0 1rem}
+.creds div{display:grid;grid-template-columns:7rem 1fr;gap:1rem;align-items:baseline;padding:.6rem 0;border-bottom:1px solid rgba(138,150,163,.35)}
+.creds div:first-child{border-top:1px solid rgba(138,150,163,.35)}
+.creds dt{font-weight:600;color:var(--slate)}
+.creds dd{margin:0}
+.creds code{font-size:1.0625rem}
+.demo-page .actions{margin-top:2rem}
+.roadmap a{color:var(--slate);text-underline-offset:.2em}
