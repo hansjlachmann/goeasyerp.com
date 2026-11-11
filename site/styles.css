@@ -83,8 +83,8 @@ main>section h2{font-size:1.625rem;margin-bottom:1.5rem}
 
 .site-footer{background:var(--slate);color:var(--white);padding:1.75rem 0;font-size:.9375rem}
 .site-footer .muted{color:var(--grey);margin-top:.25rem}
-.site-footer .links{margin-top:.75rem}
-.site-footer .links a{margin-right:1rem}
+.site-footer .links{margin-top:.75rem;display:flex;flex-wrap:wrap;gap:.25rem 1rem}
+.site-footer .links a{margin-right:0}
 
 @media (prefers-reduced-motion:no-preference){.btn{transition:background-color .15s}}
 
@@ -165,7 +165,7 @@ main>section h2{font-size:1.625rem;margin-bottom:1.5rem}
 .prose.roadmap-page h2{border-top:0;padding-top:0;margin:2.5rem 0 1rem}
 
 @media (max-width:30rem){
-  .bar{gap:.5rem}
+  .bar{gap:.25rem .5rem;flex-wrap:wrap}
   .brand img{height:1.5rem}
   .header-nav{gap:0}
   .header-link{padding:.25rem .4rem;font-size:.9375rem}
@@ -189,3 +189,7 @@ main>section h2{font-size:1.625rem;margin-bottom:1.5rem}
 .creds code{font-size:1.0625rem}
 .demo-page .actions{margin-top:2rem}
 .roadmap a{color:var(--slate);text-underline-offset:.2em}
+
+.blog-fig{margin:1.5rem 0}
+.blog-fig img{display:block;width:100%;height:auto;border-radius:.5rem;border:1px solid rgba(138,150,163,.35)}
+.blog-fig figcaption{margin-top:.5rem;font-size:.9375rem;color:var(--slate)}
