@@ -193,3 +193,7 @@ main>section h2{font-size:1.625rem;margin-bottom:1.5rem}
 .blog-fig{margin:1.5rem 0}
 .blog-fig img{display:block;width:100%;height:auto;border-radius:.5rem;border:1px solid rgba(138,150,163,.35)}
 .blog-fig figcaption{margin-top:.5rem;font-size:.9375rem;color:var(--slate)}
+.blog-figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:1rem}
+.blog-figs .blog-fig{margin:1rem 0}
+.blog-fig-single{max-width:26rem}
+.blog-fig a{display:block}
