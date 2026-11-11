@@ -49,7 +49,7 @@
         <p>The live GoEasyERP demo environment runs on a Raspberry Pi 5 with 16 GB RAM and an external SSD. Here it is, next to a one-euro coin for scale.</p>
         <figure class="blog-fig"><img src="/assets/blog/raspberry-pi-5.jpg" width="1600" height="739" alt="A Raspberry Pi 5 with an M.2 NVMe SSD and a network cable, next to a one-euro coin" loading="lazy"><figcaption>The Raspberry Pi 5 that runs the demo.</figcaption></figure>
         <p>It runs Debian GNU/Linux 13 (trixie) and Kubernetes (k3s).</p>
-        <p>The demo environment is deployed through an automated GitOps workflow. A CI/CD pipeline builds the container images, and Flux rolls the new versions out to the cluster automatically.</p>
+        <p>The demo environment is deployed through an automated GitOps workflow. A CI/CD pipeline builds the container images, Renovate detects each new version, and Flux rolls it out to the cluster automatically.</p>
         <p>Try it out on the <a href="/demo/">demo page</a>.</p>
       </article>
     </div>
