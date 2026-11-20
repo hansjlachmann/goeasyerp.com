@@ -89,7 +89,8 @@ main>section h2{font-size:1.625rem;margin-bottom:1.5rem}
 @media (prefers-reduced-motion:no-preference){.btn{transition:background-color .15s}}
 
 .hero-shot a[data-slide]{cursor:zoom-in}
-.shot-links{list-style:none;margin:1.25rem 0 0;padding:0;display:flex;flex-wrap:wrap;gap:.25rem 1.25rem}
+.shot-links{list-style:disc;margin:1.25rem 0 0;padding:0 0 0 1.25rem}
+.shot-links li{margin:.25rem 0}
 .shot-links a{color:var(--slate);font-weight:600}
 
 .viewer{border:0;padding:0;background:transparent;max-width:none;max-height:none;width:100vw;height:100vh;color:var(--white)}
