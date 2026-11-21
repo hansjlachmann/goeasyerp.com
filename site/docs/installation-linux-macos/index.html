@@ -56,27 +56,38 @@
         </ul>
 
         <h2 id="try">Try it on your own computer</h2>
+        <p>Install Docker, then run one line. It works the same on Linux, macOS and WSL.</p>
         <h3 id="try-macos">macOS</h3>
         <p>Install <a href="https://www.docker.com/products/docker-desktop/" rel="noopener">Docker Desktop</a> and start it. Then, in Terminal:</p>
-<div class="code"><pre><code>mkdir ~/goeasyerp &amp;&amp; cd ~/goeasyerp
-curl -o docker-compose.yml https://raw.githubusercontent.com/hansjlachmann/goeasyerp/main/docker-compose.local.yml
-open -e docker-compose.yml      # replace JWT_SECRET with any long random text, save
-docker compose up -d</code></pre></div>
+<div class="code"><pre><code>curl -fsSL https://raw.githubusercontent.com/hansjlachmann/goeasyerp/main/scripts/goeasyerp.sh | sh</code></pre></div>
 
         <h3 id="try-linux">Linux</h3>
-        <p>Install Docker Engine, for example on Ubuntu, and then start GoEasyERP:</p>
+        <p>Install Docker Engine, for example on Ubuntu, and then run the script:</p>
 <div class="code"><pre><code>curl -fsSL https://get.docker.com | sudo sh
 sudo usermod -aG docker $USER   # log out and in again
-mkdir ~/goeasyerp &amp;&amp; cd ~/goeasyerp
-curl -o docker-compose.yml https://raw.githubusercontent.com/hansjlachmann/goeasyerp/main/docker-compose.local.yml
-nano docker-compose.yml         # replace JWT_SECRET with any long random text
-docker compose up -d</code></pre></div>
+curl -fsSL https://raw.githubusercontent.com/hansjlachmann/goeasyerp/main/scripts/goeasyerp.sh | sh</code></pre></div>
 
         <p>On both systems, wait 2&ndash;3 minutes, then open <code>http://localhost:8000</code> and create the first user.</p>
+        <p>The script works in the folder <code>~/goeasyerp</code>. To use another folder, put <code>GOEASYERP_DIR=/srv/goeasyerp</code> before <code>sh</code>, or give the folder as an argument. It checks that Docker runs Linux containers, keeps the settings in a file called <code>.env</code> (a new installation gets a random <code>JWT_SECRET</code>), downloads the latest <code>docker-compose.yml</code> and starts GoEasyERP.</p>
+        <p>To read the script before it runs, download it and run the file:</p>
+<div class="code"><pre><code>curl -fsSLO https://raw.githubusercontent.com/hansjlachmann/goeasyerp/main/scripts/goeasyerp.sh
+less goeasyerp.sh
+sh goeasyerp.sh</code></pre></div>
         <p>Stop GoEasyERP with <code>docker compose stop</code> and start it again with <code>docker compose start</code>, in the <code>goeasyerp</code> folder.</p>
-        <p class="note"><strong>Never run <code>docker compose down -v</code>.</strong> It deletes the database.</p>
-        <p>The trial installation is reachable from this computer only. To open it from other computers, change the line <code>"127.0.0.1:8000:80"</code> to <code>"8000:80"</code>, set <code>ORIGIN</code> to <code>http://&lt;computer name&gt;:8000</code> and open port 8000 in the firewall. For anything several people use, follow the server installation below instead.</p>
-        <p><strong>Upgrade:</strong> download <code>docker-compose.local.yml</code> again over <code>docker-compose.yml</code>, keep your <code>JWT_SECRET</code>, then run <code>docker compose pull</code> and <code>docker compose up -d</code>.</p>
+        <p class="note"><strong>Never run <code>docker compose down -v</code>.</strong> It deletes the database. Keep <code>JWT_SECRET</code> in <code>.env</code>: it also encrypts stored passwords, so it must never change.</p>
+        <p>The trial installation is reachable from this computer only. To open it from other computers, add these lines to <code>.env</code>:</p>
+<div class="code"><pre><code>GOEASYERP_BIND=0.0.0.0
+GOEASYERP_ORIGIN=http://&lt;computer name&gt;:8000</code></pre></div>
+        <p>Then run <code>docker compose up -d</code> in the folder and open port 8000 in the firewall. <code>GOEASYERP_PORT</code> changes the port. For anything several people use, follow the server installation below instead.</p>
+        <p><strong>Upgrade:</strong> run the same line again. It backs the database up into the <code>backups</code> folder when GoEasyERP is running, keeps your <code>.env</code> settings and saves the new <code>docker-compose.yml</code> (the old one stays as <code>docker-compose.yml.bak</code>).</p>
+
+        <h3 id="manual">Without the script</h3>
+        <p>Save <a href="https://raw.githubusercontent.com/hansjlachmann/goeasyerp/main/docker-compose.local.yml" rel="noopener"><code>docker-compose.local.yml</code></a> as <code>docker-compose.yml</code> in a folder of its own, and create a file <code>.env</code> next to it with the line <code>JWT_SECRET=&lt;any long random text&gt;</code>. Then, in that folder:</p>
+<div class="code"><pre><code>mkdir ~/goeasyerp &amp;&amp; cd ~/goeasyerp
+curl -o docker-compose.yml https://raw.githubusercontent.com/hansjlachmann/goeasyerp/main/docker-compose.local.yml
+echo "JWT_SECRET=$(openssl rand -hex 32)" &gt; .env
+docker compose up -d</code></pre></div>
+        <p>To upgrade this way, save the new file over <code>docker-compose.yml</code>, then run <code>docker compose pull</code> and <code>docker compose up -d</code>.</p>
 
         <h3 id="demo-data">Demo data</h3>
         <p>To look around with sample data, GoEasyERP can fill a company with demo customers and a year of customer ledger entries.</p>
@@ -85,7 +96,7 @@ docker compose up -d</code></pre></div>
           <li>Add a Job Queue line with Object ID to Run <code>901</code> and Parameter <code>SMALL</code> (20 customers, about 540 ledger entries).</li>
           <li>Run it with <kbd>F9</kbd>.</li>
         </ol>
-        <p class="note"><strong>Never run it in a company with real data.</strong> If the company already has customers, it deletes the company&rsquo;s data first.</p>
+        <p class="note"><strong>Demo data never deletes real data.</strong> Creating it marks the company as a demo company. Running it again in a demo company replaces that company&rsquo;s data, but only for a user with the role SUPER, from the page with <kbd>F9</kbd>, after a question. A scheduled run never replaces data, and a company with customers that is not a demo company is refused.</p>
 
         <h2 id="server">Run it on a server</h2>
         <p>For real use, run GoEasyERP on a Linux server with Docker and git. It serves users over HTTPS through nginx on ports 80 and 443, and uses the same pre-built images as the trial installation.</p>
@@ -93,7 +104,7 @@ docker compose up -d</code></pre></div>
         <h3 id="first-install">First installation</h3>
 <div class="code"><pre><code>git clone https://github.com/hansjlachmann/goeasyerp.git ~/openerp &amp;&amp; cd ~/openerp
 cp prod.env.example prod.env &amp;&amp; chmod 600 prod.env
-# edit prod.env: APP_VERSION, JWT_SECRET, POSTGRES_PASSWORD
+# edit prod.env: APP_VERSION, JWT_SECRET, POSTGRES_PASSWORD, BUILDER_DB_PASSWORD
 ./generate-cert.sh            # or put your own certificate into certs/
 scripts/prod.sh pull &amp;&amp; scripts/prod.sh up -d</code></pre></div>
         <p>The settings are in <code>prod.env</code>, which is not tracked by git because it holds secrets:</p>
@@ -102,7 +113,8 @@ scripts/prod.sh pull &amp;&amp; scripts/prod.sh up -d</code></pre></div>
           <tbody>
             <tr><th scope="row"><code>APP_VERSION</code></th><td>The release to run.</td></tr>
             <tr><th scope="row"><code>JWT_SECRET</code></th><td>Signs sessions. Generate it once with <code>openssl rand -hex 32</code>. Without it, every restart logs all users out.</td></tr>
-            <tr><th scope="row"><code>POSTGRES_PASSWORD</code></th><td>Password of the database user. It is only applied when the database is first created, so choose a strong one now.</td></tr>
+            <tr><th scope="row"><code>POSTGRES_PASSWORD</code></th><td>Password of the database role the server works as. It is only applied when the database is first created, so choose a strong one now. The server does not run as a database superuser.</td></tr>
+            <tr><th scope="row"><code>BUILDER_DB_PASSWORD</code></th><td>Password of the separate database role for the app builder. Generate it with <code>openssl rand -hex 24</code> and set it before the first start of this release; it cannot be added afterwards without extra steps.</td></tr>
             <tr><th scope="row"><code>PUBLISH_HOST</code></th><td>Where the backend and frontend ports are published. The default, <code>127.0.0.1</code>, means this host only.</td></tr>
           </tbody>
         </table>

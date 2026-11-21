@@ -315,7 +315,8 @@ kubectl -n goeasyerp exec -it backup-shell -- pg_restore -h goeasyerp-postgres -
 kubectl -n goeasyerp scale deploy/goeasyerp-backend --replicas=1
 kubectl -n goeasyerp delete pod backup-shell</code></pre></div>
         <p><code>pg_restore</code> asks for the database password: it is the <code>db-password</code> value of the <code>goeasyerp-secret</code> Secret. Other tasks, such as changing the database password or the JWT secret, are described in the <a href="https://github.com/hansjlachmann/goeasyerp/blob/main/docs/operations.md" rel="noopener">operations guide</a> on GitHub for the Docker installation; the same ideas apply, using the Secret.</p>
-</article>
+        <p>To install extension apps, GoEasyERP also needs a builder Deployment and a shared volume. This is optional and not part of the steps above; see the Kubernetes section of the <a href="https://github.com/hansjlachmann/goeasyerp/blob/main/docs/operations.md" rel="noopener">operations guide on GitHub</a>.</p>
+      </article>
     </div>
   </main>
 
