@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GoEasyERP Blog</title>
+    <link>https://goeasyerp.org/blog/</link>
+    <atom:link href="https://goeasyerp.org/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>News, release notes and articles from the GoEasyERP project.</description>
+    <language>en</language>
+    <lastBuildDate>Sat, 21 Nov 2026 20:19:37 +0000</lastBuildDate>
+    <item>
+      <title>Cloud ERP and vendor lock-in vs open-source ERP</title>
+      <link>https://goeasyerp.org/blog/cloud-erp-vs-open-source/</link>
+      <guid isPermaLink="true">https://goeasyerp.org/blog/cloud-erp-vs-open-source/</guid>
+      <pubDate>Thu, 19 Nov 2026 12:00:00 +0000</pubDate>
+      <description>Who does the cloud ERP model really benefit, the customer or the vendor? Thoughts on vendor lock-in and what open source can and cannot solve.</description>
+    </item>
+    <item>
+      <title>GoEasyERP in 4 minutes</title>
+      <link>https://goeasyerp.org/blog/goeasyerp-in-4-minutes/</link>
+      <guid isPermaLink="true">https://goeasyerp.org/blog/goeasyerp-in-4-minutes/</guid>
+      <pubDate>Mon, 16 Nov 2026 12:00:00 +0000</pubDate>
+      <description>A short video showing what GoEasyERP covers: the main menu, search with Ctrl+F, keyboard-only sales orders, previewing entries and Navigate.</description>
+    </item>
+    <item>
+      <title>What the MIT licence means for GoEasyERP</title>
+      <link>https://goeasyerp.org/blog/mit-licence/</link>
+      <guid isPermaLink="true">https://goeasyerp.org/blog/mit-licence/</guid>
+      <pubDate>Sun, 15 Nov 2026 12:00:00 +0000</pubDate>
+      <description>GoEasyERP is open source under the MIT licence. What that means: free use, no per-user charges, no lock-in.</description>
+    </item>
+    <item>
+      <title>Change the theme and background in GoEasyERP</title>
+      <link>https://goeasyerp.org/blog/themes-and-backgrounds/</link>
+      <guid isPermaLink="true">https://goeasyerp.org/blog/themes-and-backgrounds/</guid>
+      <pubDate>Wed, 11 Nov 2026 12:00:00 +0000</pubDate>
+      <description>GoEasyERP has a dark and a light theme, and the main menu can show a background image of your choice.</description>
+    </item>
+    <item>
+      <title>Run GoEasyERP on your Windows workstation</title>
+      <link>https://goeasyerp.org/blog/run-on-windows/</link>
+      <guid isPermaLink="true">https://goeasyerp.org/blog/run-on-windows/</guid>
+      <pubDate>Wed, 11 Nov 2026 12:00:00 +0000</pubDate>
+      <description>GoEasyERP runs on a Windows workstation with Docker Desktop. Installation is four PowerShell commands.</description>
+    </item>
+    <item>
+      <title>The GoEasyERP live demo is open</title>
+      <link>https://goeasyerp.org/blog/live-demo-is-open/</link>
+      <guid isPermaLink="true">https://goeasyerp.org/blog/live-demo-is-open/</guid>
+      <pubDate>Wed, 11 Nov 2026 12:00:00 +0000</pubDate>
+      <description>The GoEasyERP live demo is open: a full installation with sample data you can try without installing anything.</description>
+    </item>
+    <item>
+      <title>The live demo runs on a Raspberry Pi 5</title>
+      <link>https://goeasyerp.org/blog/demo-on-raspberry-pi/</link>
+      <guid isPermaLink="true">https://goeasyerp.org/blog/demo-on-raspberry-pi/</guid>
+      <pubDate>Wed, 11 Nov 2026 12:00:00 +0000</pubDate>
+      <description>The GoEasyERP live demo runs on Kubernetes (k3s) on a Raspberry Pi 5 with 16 GB RAM and an external SSD.</description>
+    </item>
+  </channel>
+</rss>
