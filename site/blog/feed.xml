@@ -6,7 +6,14 @@
     <atom:link href="https://goeasyerp.org/blog/feed.xml" rel="self" type="application/rss+xml"/>
     <description>News, release notes and articles from the GoEasyERP project.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 21 Nov 2026 20:19:37 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 23 Nov 2026 14:06:03 +0000</lastBuildDate>
+    <item>
+      <title>Install GoEasyERP on Windows</title>
+      <link>https://goeasyerp.org/blog/install-on-windows/</link>
+      <guid isPermaLink="true">https://goeasyerp.org/blog/install-on-windows/</guid>
+      <pubDate>Mon, 23 Nov 2026 12:00:00 +0000</pubDate>
+      <description>A video showing how to install GoEasyERP on a Windows computer with one PowerShell command and Docker Desktop.</description>
+    </item>
     <item>
       <title>Cloud ERP and vendor lock-in vs open-source ERP</title>
       <link>https://goeasyerp.org/blog/cloud-erp-vs-open-source/</link>
