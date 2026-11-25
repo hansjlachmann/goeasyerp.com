@@ -211,7 +211,7 @@ main>section h2{font-size:1.625rem;margin-bottom:1.5rem}
 .blog-fig-single{max-width:26rem}
 .blog-fig a{display:block}
 .person{display:grid;gap:1.25rem;align-items:start}
-.person img{width:100%;max-width:14rem;height:auto;border-radius:.5rem}
+.person img{width:100%;max-width:14rem;height:auto;aspect-ratio:1;object-fit:cover;object-position:top;border-radius:50%}
 .person h3{margin-top:0}
 .person+.person{margin-top:2rem}
 @media (min-width:40rem){.person{grid-template-columns:14rem 1fr;gap:2rem}}
