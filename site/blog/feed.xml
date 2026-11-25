@@ -6,7 +6,14 @@
     <atom:link href="https://goeasyerp.org/blog/feed.xml" rel="self" type="application/rss+xml"/>
     <description>News, release notes and articles from the GoEasyERP project.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 23 Nov 2026 14:06:03 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 25 Nov 2026 17:24:29 +0000</lastBuildDate>
+    <item>
+      <title>Install GoEasyERP on Linux</title>
+      <link>https://goeasyerp.org/blog/install-on-linux/</link>
+      <guid isPermaLink="true">https://goeasyerp.org/blog/install-on-linux/</guid>
+      <pubDate>Wed, 25 Nov 2026 12:00:00 +0000</pubDate>
+      <description>A video showing how to install GoEasyERP on a Linux computer with one command and Docker.</description>
+    </item>
     <item>
       <title>Install GoEasyERP on Windows</title>
       <link>https://goeasyerp.org/blog/install-on-windows/</link>
