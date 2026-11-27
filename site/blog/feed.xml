@@ -6,7 +6,14 @@
     <atom:link href="https://goeasyerp.org/blog/feed.xml" rel="self" type="application/rss+xml"/>
     <description>News, release notes and articles from the GoEasyERP project.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 25 Nov 2026 17:24:29 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 27 Nov 2026 15:17:51 +0000</lastBuildDate>
+    <item>
+      <title>Security is our highest concern: one week of security work on GoEasyERP</title>
+      <link>https://goeasyerp.org/blog/one-week-of-security-work/</link>
+      <guid isPermaLink="true">https://goeasyerp.org/blog/one-week-of-security-work/</guid>
+      <pubDate>Fri, 27 Nov 2026 12:00:00 +0000</pubDate>
+      <description>A full security audit of GoEasyERP in ten areas: more than 60 findings, each fixed or deliberately decided on. Here is what changed.</description>
+    </item>
     <item>
       <title>Install GoEasyERP on Linux</title>
       <link>https://goeasyerp.org/blog/install-on-linux/</link>
