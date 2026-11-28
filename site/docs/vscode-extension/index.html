@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to set up the VS Code GoEasyERP extension – GoEasyERP documentation</title>
+  <meta name="description" content="Write a GoEasyERP extension app in VS Code and publish it to GoEasyERP running in a local Docker container.">
+  <meta name="theme-color" content="#1F2933">
+  <link rel="icon" href="/assets/goeasyerp-icon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/goeasyerp-icon-180.png">
+  <link rel="preload" href="/assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GoEasyERP">
+  <meta property="og:title" content="How to set up the VS Code GoEasyERP extension – GoEasyERP documentation">
+  <meta property="og:description" content="Write a GoEasyERP extension app in VS Code and publish it to GoEasyERP running in a local Docker container.">
+  <link rel="canonical" href="https://goeasyerp.org/docs/vscode-extension/">
+  <meta property="og:url" content="https://goeasyerp.org/docs/vscode-extension/">
+  <meta property="og:image" content="https://goeasyerp.org/assets/goeasyerp-share.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="627">
+  <meta property="og:image:alt" content="GoEasyERP – Open-source ERP for small businesses">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="alternate" type="application/rss+xml" title="GoEasyERP Blog" href="/blog/feed.xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/theme.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap bar">
+      <a href="/" class="brand">
+        <img src="/assets/goeasyerp-wordmark-offwhite.svg" alt="GoEasyERP" width="575" height="119">
+      </a>
+      <nav class="header-nav" aria-label="Main">
+        <a class="header-link" href="/roadmap/">Roadmap</a>
+        <a class="header-link" href="/demo/">Demo</a>
+        <a class="header-link" href="/blog/">Blog</a>
+        <a class="header-link" href="/docs/" aria-current="page">Docs</a>
+        <a class="header-link" href="/about/">About</a>
+        <a class="header-link" href="https://github.com/hansjlachmann/goeasyerp" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <button type="button" class="theme-toggle" aria-label="Switch to night mode" title="Switch to night mode"><svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="wrap docs">
+      <nav class="docs-nav" aria-label="Documentation"><p class="docs-nav-title">Documentation</p><ul><li><a href="/docs/installation-windows/">Installation: Windows</a></li><li><a href="/docs/installation-linux-macos/">Installation: Linux and macOS</a></li><li><a href="/docs/installation-kubernetes/">Installation: Kubernetes</a></li><li><a href="/docs/vscode-extension/" aria-current="page">VS Code extension</a></li></ul></nav>
+      <article class="prose">
+        <h1>How to set up the VS Code GoEasyERP extension</h1>
+<p>Write a GoEasyERP <em>extension app</em> in VS Code and publish it to GoEasyERP running in a local Docker container. An extension app adds tables, pages, fields, buttons, menu entries, texts and Go business logic without changing the base application.</p>
+
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>Visual Studio Code 1.136 or newer.</li>
+<li>Docker: Docker Desktop on Windows and macOS, Docker Engine with Compose on Linux.</li>
+<li>On Windows: Docker Desktop with WSL 2, running Linux containers.</li>
+<li>Go is not needed: the extension provides it.</li>
+</ul>
+
+<h2 id="install">1. Install</h2>
+<p>Open the Extensions view (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd>), search for <strong>GoEasyERP</strong>, publisher <strong>ERP Development AS</strong>, and choose <strong>Install</strong>. The Go and YAML extensions are installed with it. The extension is also on the <a href="https://marketplace.visualstudio.com/items?itemName=erp-development.goeasyerp" rel="noopener">Marketplace</a>.</p>
+<figure class="doc-fig"><a href="/assets/docs/vscode-extension/install.png" target="_blank"><img src="/assets/docs/vscode-extension/install.png" width="340" height="145" alt="Extensions view with a search for goeasyerp, showing the GoEasyERP extension by ERP Development AS and its Install button" loading="lazy"></a></figure>
+
+<h2 id="new-app">2. Create an app</h2>
+<p>Open the Command Palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>) and run <strong>GoEasyERP: New App</strong>.</p>
+<figure class="doc-fig"><a href="/assets/docs/vscode-extension/new-app-command.png" target="_blank"><img src="/assets/docs/vscode-extension/new-app-command.png" width="646" height="357" alt="Command Palette listing the GoEasyERP commands with GoEasyERP: New App selected" loading="lazy"></a></figure>
+<p>Enter the app's name,</p>
+<figure class="doc-fig"><a href="/assets/docs/vscode-extension/app-name.png" target="_blank"><img src="/assets/docs/vscode-extension/app-name.png" width="625" height="89" alt="Input box for the name of the new app" loading="lazy"></a></figure>
+<p>its publisher,</p>
+<figure class="doc-fig"><a href="/assets/docs/vscode-extension/app-publisher.png" target="_blank"><img src="/assets/docs/vscode-extension/app-publisher.png" width="621" height="81" alt="Input box for the app&#x27;s publisher" loading="lazy"></a></figure>
+<p>a web address or e-mail address to reach the publisher, and a prefix: 2 to 10 lower case letters and digits, starting with a letter.</p>
+<figure class="doc-fig"><a href="/assets/docs/vscode-extension/app-prefix.png" target="_blank"><img src="/assets/docs/vscode-extension/app-prefix.png" width="626" height="67" alt="Input box for the prefix of the app&#x27;s own names, filled in with ma" loading="lazy"></a></figure>
+<p class="note"><strong>Remember your prefix: the app's field names must start with it.</strong> In this guide the prefix is <code>ma</code>, so the field is named <code>ma_description</code>.</p>
+<p>Then choose the folder to create the app in. Open the new folder and trust it.</p>
+<figure class="doc-fig"><a href="/assets/docs/vscode-extension/trust.png" target="_blank"><img src="/assets/docs/vscode-extension/trust.png" width="980" height="486" alt="VS Code Workspace Trust page with the Trust button for a trusted folder" loading="lazy"></a></figure>
+<p>Accept <strong>Download Base</strong>, which gives you code completion.</p>
+<figure class="doc-fig"><a href="/assets/docs/vscode-extension/download-base.png" target="_blank"><img src="/assets/docs/vscode-extension/download-base.png" width="462" height="78" alt="Notification showing that the base is being downloaded" loading="lazy"></a></figure>
+
+<h2 id="container">3. Create a local container</h2>
+<p>In the Command Palette, run <strong>GoEasyERP: Create Local Container</strong>.</p>
+<figure class="doc-fig"><a href="/assets/docs/vscode-extension/create-container.png" target="_blank"><img src="/assets/docs/vscode-extension/create-container.png" width="639" height="352" alt="Command Palette with GoEasyERP: Create Local Container selected" loading="lazy"></a></figure>
+<p>Choose the base version (the newest is proposed)</p>
+<figure class="doc-fig"><a href="/assets/docs/vscode-extension/base-version.png" target="_blank"><img src="/assets/docs/vscode-extension/base-version.png" width="662" height="149" alt="List of base versions for the new container, the newest first" loading="lazy"></a></figure>
+<p>and the port (8080 is proposed).</p>
+<figure class="doc-fig"><a href="/assets/docs/vscode-extension/port.png" target="_blank"><img src="/assets/docs/vscode-extension/port.png" width="628" height="86" alt="Input box for the port of the new container, filled in with 8080" loading="lazy"></a></figure>
+<p>Enter a password for the user <code>ADMIN</code> twice. It needs at least 10 characters and must not contain &ldquo;admin&rdquo;; common passwords are refused. The password is kept in VS Code's secret storage.</p>
+<figure class="doc-fig"><a href="/assets/docs/vscode-extension/password.png" target="_blank"><img src="/assets/docs/vscode-extension/password.png" width="621" height="85" alt="Input box for the password of the user ADMIN, with the password hidden" loading="lazy"></a></figure>
+<p>The first start takes a few minutes.</p>
+<figure class="doc-fig"><a href="/assets/docs/vscode-extension/creating.png" target="_blank"><img src="/assets/docs/vscode-extension/creating.png" width="493" height="115" alt="Notification that GoEasyERP is being created and started" loading="lazy"></a></figure>
+<figure class="doc-fig"><a href="/assets/docs/vscode-extension/running.png" target="_blank"><img src="/assets/docs/vscode-extension/running.png" width="455" height="44" alt="Notification that the container is running at http://localhost:8080" loading="lazy"></a></figure>
+<p>Open <code>http://localhost:8080</code> (or the port you chose) and sign in as <code>ADMIN</code>.</p>
+<figure class="doc-fig"><a href="/assets/docs/vscode-extension/sign-in.png" target="_blank"><img src="/assets/docs/vscode-extension/sign-in.png" width="986" height="599" alt="GoEasyERP sign-in page with the user ID ADMIN" loading="lazy"></a></figure>
+<figure class="doc-fig"><a href="/assets/docs/vscode-extension/main-menu.png" target="_blank"><img src="/assets/docs/vscode-extension/main-menu.png" width="985" height="609" alt="GoEasyERP main menu after signing in" loading="lazy"></a></figure>
+
+<h2 id="field">4. Add a field to the Customer table</h2>
+<p>New apps have these folders:</p>
+<table class="wrap-cells">
+<thead><tr><th scope="col">Folder</th><th scope="col">Holds</th></tr></thead>
+<tbody>
+<tr><th scope="row"><code>tables/</code></th><td>Fields on base tables</td></tr>
+<tr><th scope="row"><code>pages/</code></th><td>Fields, sections and buttons on base pages</td></tr>
+<tr><th scope="row"><code>menus/</code></th><td>Main menu entries</td></tr>
+<tr><th scope="row"><code>custom/tables/</code>, <code>custom/pages/</code></th><td>The app's own tables and pages</td></tr>
+<tr><th scope="row"><code>translations/&lt;language&gt;/</code></th><td>The app's texts</td></tr>
+</tbody>
+</table>
+<p>Create the table extension with the snippet <code>ge-tableext</code> (<kbd>Ctrl</kbd>+<kbd>Space</kbd>).</p>
+<p class="note"><strong>Remember your prefix: the app's field names must start with it.</strong> In this guide the prefix is <code>ma</code>, so the field is named <code>ma_description</code>. Use your own prefix in <code>name</code> and <code>db_name</code>, and the same name in the page file.</p>
+<p class="file-name"><code>tables/18-customer.extend.yaml</code></p>
+<div class="code"><pre><code>extends_table: 18
+fields:
+  - name: ma_description
+    no: 50000
+    type: types.Text
+    db_name: ma_description
+    length: 100
+    caption: Description</code></pre></div>
+<figure class="doc-fig"><a href="/assets/docs/vscode-extension/table-extension.png" target="_blank"><img src="/assets/docs/vscode-extension/table-extension.png" width="773" height="406" alt="VS Code with the Explorer and the Customer table extension file that adds a description field" loading="lazy"></a></figure>
+<p>Then show the field on the Customer Card:</p>
+<p class="file-name"><code>pages/21-customer-card.extend.yaml</code></p>
+<div class="code"><pre><code>extends: 21
+layout:
+  sections:
+    - name: General
+      fields:
+        - source: ma_description
+          after: name</code></pre></div>
+<figure class="doc-fig"><a href="/assets/docs/vscode-extension/page-extension.png" target="_blank"><img src="/assets/docs/vscode-extension/page-extension.png" width="857" height="414" alt="VS Code with the Customer Card page extension file that places the field after the name" loading="lazy"></a></figure>
+<p>Each field needs a number of the app's series that no other field uses (<strong>GoEasyERP: Next Free Field No.</strong>).</p>
+
+<h2 id="publish">5. Publish</h2>
+<p>Press <kbd>F5</kbd> (<kbd>Ctrl</kbd>+<kbd>F5</kbd>: without opening the browser). The extension compiles the app, publishes it, shows the build log and opens the browser.</p>
+<figure class="doc-fig"><a href="/assets/docs/vscode-extension/publish-output.png" target="_blank"><img src="/assets/docs/vscode-extension/publish-output.png" width="1519" height="205" alt="VS Code output panel with the build log while the app is being published" loading="lazy"></a></figure>
+<p>The field is on the Customer Card. The first publish takes a few minutes; later changes of the app's code are typically live in about half a minute. <kbd>F5</kbd> publishes to development servers only.</p>
+<figure class="doc-fig"><a href="/assets/docs/vscode-extension/customer-card.png" target="_blank"><img src="/assets/docs/vscode-extension/customer-card.png" width="995" height="522" alt="Customer Card with the new field filled in, below the customer number" loading="lazy"></a></figure>
+
+<h2 id="own-table">6. A table of your own</h2>
+<ol>
+<li><code>custom/tables/50000-group.yaml</code>: snippet <code>ge-table</code>.</li>
+<li><code>custom/pages/50000-groups.yaml</code>: snippet <code>ge-list</code>; <code>source_table</code> is the table's name.</li>
+<li><code>menus/admin.extend.yaml</code>: snippet <code>ge-menu</code>; <code>page_id</code> is the list page's <code>id</code>.</li>
+<li><kbd>F5</kbd>, then open <strong>Sales</strong> in the main menu.</li>
+</ol>
+
+<h2 id="commands">Other commands</h2>
+<table class="wrap-cells">
+<thead><tr><th scope="col">Command or key</th><th scope="col">Does</th></tr></thead>
+<tbody>
+<tr><th scope="row"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd></th><td>Compiles and checks the app; publishes nothing</td></tr>
+<tr><th scope="row">GoEasyERP: Unpublish App</th><td>Removes the app from the development server</td></tr>
+<tr><th scope="row">GoEasyERP: Package App</th><td>Writes the app's .zip for an installation</td></tr>
+<tr><th scope="row">GoEasyERP: Stop / Start Local Container</th><td>Stops and starts the container</td></tr>
+<tr><th scope="row">GoEasyERP: Remove Local Container</th><td>Removes it <strong>and deletes its database</strong></td></tr>
+<tr><th scope="row">GoEasyERP: Show Output</th><td>The extension's log</td></tr>
+</tbody>
+</table>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<ul>
+<li>A snippet is not offered: the file is in another folder than the snippet belongs to (<code>ge-table</code> needs <code>custom/tables/</code>, <code>ge-tableext</code> needs <code>tables/</code>).</li>
+<li>Docker cannot be reached: start Docker, and check that your user may use it.</li>
+<li>Anything else: <strong>GoEasyERP: Show Output</strong>, and report it on <a href="https://github.com/hansjlachmann/goeasyerp-vscode/issues" rel="noopener">GitHub</a>.</li>
+</ul>
+
+<h2 id="reference">Reference</h2>
+<p>The <a href="https://github.com/hansjlachmann/goeasyerp-vscode#readme" rel="noopener">extension's README on GitHub</a>.</p>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>GoEasyERP · open source under the MIT licence · goeasyerp.org</p>
+      <p class="muted">ERP Development AS</p>
+      <p class="links"><a href="/roadmap/">Roadmap</a><a href="/blog/">Blog</a><a href="/docs/">Docs</a><a href="/about/">About</a><a href="https://github.com/hansjlachmann/goeasyerp" rel="noopener">GitHub</a><a href="https://www.linkedin.com/company/goeasyerp" rel="noopener">LinkedIn</a><a href="https://www.youtube.com/@GoEasyERP" rel="noopener">YouTube</a></p>
+    </div>
+  </footer>
+  <script src="/docs.js" defer></script>
+</body>
+</html>

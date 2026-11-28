@@ -234,3 +234,7 @@ html[data-theme] .theme-toggle{display:inline-flex}
 .hero-links a:hover{text-decoration-color:var(--amber)}
 .hero-icon{display:inline-flex;flex:none;align-items:center;justify-content:center;width:2.25rem;height:2.25rem;border-radius:.5rem;background:var(--amber);color:var(--slate)}
 .hero-icon svg{width:1.25rem;height:1.25rem;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.doc-fig{margin:.75rem 0 1.5rem}
+.doc-fig a{display:inline-block;max-width:100%}
+.doc-fig img{display:block;max-width:100%;height:auto;border-radius:.5rem;border:1px solid rgba(138,150,163,.35)}
+.prose .wrap-cells tbody th{white-space:normal}
